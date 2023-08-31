@@ -1,30 +1,44 @@
 # Installation
 
-Before you install the package, make sure you meet the [prerequisites](#prerequisites).
+Before you install the package, make sure you meet the [system requirement](#system-requirement) and [prerequisites](#prerequisites).
 
-## Install the KTX package using the Unity Package Manager
+## Install the *KTX for Unity* package using the Unity Package Manager
 
-The package is currently experimental, you can't install it through the Unity Package Manager (UPM) user interface.
+To install *KTX for Unity* package, follow these steps:
 
-To install the KTX package using the UPM, see the following steps:
-1. Open your `<your-unity-project-path>/Packages/manifest.json` file.
-2. Add the package to the dependencies section, with a single new line in your `manifest.json` file (see the snippet below). Make sure you use the latest version of the package. You can keep all the other dependencies in the file.
-3. Open your project in the Unity Editor, the package and its dependencies will be resolved automatically.
-4. In your Unity project, go to **Window > Package Manager** and verify that the package and all its dependencies are resolved.
+In your Unity project, go to Windows > Package Manager.
+On the status bar, select the Add (+) button.
+From the Add menu, select Add + package by name. Name and Version fields appear.
+In the Name field, enter `com.unity.cloud.ktx`.
+Select Add.
+The Editor installs the latest available version of the package and any dependent packages.
 
-Below is a snippet showing the line that you should add in the `manifest.json` file. Make sure you don't add the lines starting with `//`. They were added in the snippet to provide some explanation. Adding these lines will generate an error within Unity.
-```json
-  {
-    "dependencies": {
-      // Add this line:
-      "com.unity.cloud.ktx": "2.2.3",
-      // Other dependencies...
-    }
-  }
-```
+## System Requirement
+
+*KTX for Unity* supports the following platforms:
+
+- WebGL
+- iOS (arm64 and armv7a)
+- Android (arm64 and armv7a)
+- Windows (64 bit)
+- Universal Windows Platform (x64, x86, ARM, ARM64)
+- MacOS Universal (Apple Silicon and Intel)
+- Linux (64 bit)
+- Lumin / Magic Leap
 
 ## Prerequisites
 
 To use the package, you require the following:
 
-* A Unity version of 2018.4 or later. In the Unity Hub, go to **Installs** > **Official releases** to find the latest Long Term Support version.
+* A Unity version of 2020.1 or later. In the Unity Hub, go to **Installs** > **Official releases** to find the latest Long Term Support version.
+
+## Trademarks
+
+*Unity* is a registered trademark of [Unity Technologies][unity].
+
+Khronos&reg; and the Khronos Group logo are registered trademarks of the [The Khronos Group Inc][khronos].
+
+KTX&trade; and the KTX logo are trademarks of the [The Khronos Group Inc][khronos].
+
+[khronos]: https://www.khronos.org
+[unity]: https://unity.com

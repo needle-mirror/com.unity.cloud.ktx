@@ -1,7 +1,7 @@
 
 # How To
 
-The API provides the loading classes `KtxTexture` for [KTX 2.0][ktx] files and `BasisUniversalTexture` for [Basis Universal][basisu] files, which both offer the following async loading methods:
+The API provides the loading classes `KtxTexture` for [KTX&trade; 2.0][ktx] files and `BasisUniversalTexture` for [Basis Universal][basisu] files, which both offer the following async loading methods:
 
 - `LoadFromUrl` for loading URLs (including file URLs starting with `file://`)
 - `LoadFromStreamingAssets` for loading relative paths in the StreamingAssets folder
@@ -96,7 +96,17 @@ async void Start() {
 
 Developers who want to create advanced loading code should look into classes `KtxTexture`/`BasisUniversalTexture` and `TextureBase` directly.
 
-When loading many textures at once, using the low-level API to get finer control over the loading process can yield great performance gains. Have a look at `TextureBase.Load` and for starting and details.
+When loading many textures at once, using the low-level API to get finer control over the loading process can yield great performance gains. Have a look at `TextureBase.Load` for starting and details.
+
+## Trademarks
+
+*Unity* is a registered trademark of [Unity Technologies][unity].
+
+Khronos&reg; and the Khronos Group logo are registered trademarks of the [The Khronos Group Inc][khronos].
+
+KTX&trade; and the KTX logo are trademarks of the [The Khronos Group Inc][khronos].
 
 [basisu]: https://github.com/BinomialLLC/basis_universal
+[khronos]: https://www.khronos.org
 [ktx]: https://github.com/KhronosGroup/KTX-Specification
+[unity]: https://unity.com

@@ -3,9 +3,13 @@
 This package contains third-party software components governed by the license(s) indicated below:
 
 ### KTX Software
-Component Name: KTX Software \
-License Type: Apache 2.0 \
-Copyright © 2023 Khronos Group \
+
+Component Name: KTX Software
+
+License Type: Apache 2.0
+
+Copyright © 2023 Khronos Group
+
 [KTX-Software library](https://github.com/KhronosGroup/KTX-Software)
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,9 +26,13 @@ limitations under the License.
 
 
 ### Basis Universal Transcoder
-Component Name: Basis Universal Transcoder \
-License Type: Apache 2.0 \
-Copyright © 2022 Khronos Group \
+
+Component Name: Basis Universal Transcoder
+
+License Type: Apache 2.0
+
+Copyright © 2022 Khronos Group
+
 [Basis Universal transcoder](https://github.com/BinomialLLC/basis_universal)
 
 Licensed under the Apache License, Version 2.0 (the "License");

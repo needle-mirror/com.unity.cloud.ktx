@@ -5,7 +5,7 @@ using UnityEngine.TestTools;
 
 namespace KtxUnity.Tests
 {
-    public class PlaceholderEditorTests
+    class PlaceholderEditorTests
     {
         // A Test behaves as an ordinary method
         [Test]

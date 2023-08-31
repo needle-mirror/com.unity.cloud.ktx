@@ -1,4 +1,4 @@
-* [Unity Cloud KTX](./index.md)
+* [KTX for Unity](./index.md)
     * [Installation](./installation.md)
     * [What's new](./whats-new.md)
     * [Upgrade guide](./upgrade-guide.md)

@@ -1,14 +1,10 @@
-# KTX/Basis Texture Unity Package
+# KTX for Unity
 
 <p align="center">
-<img src="./Documentation~/img/ktx-logos.png" />
+<img src="./Documentation~/Images/ktx-logo.png" />
 </p>
 
-[![openupm](https://img.shields.io/npm/v/com.atteneder.ktx?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.atteneder.ktx/)
-[![GitHub issues](https://img.shields.io/github/issues/atteneder/KtxUnity)](https://github.com/atteneder/KtxUnity/issues)
-[![GitHub license](https://img.shields.io/github/license/atteneder/KtxUnity)](https://github.com/atteneder/KtxUnity/blob/main/LICENSE.md)
-
-Unity package that allows users to load [KTX 2.0][ktx] or [Basis Universal][basisu] texture files.
+Unity package that allows users to load [KTX&trade; 2.0][ktx] or [Basis Universal][basisu] texture files.
 
 ## Features
 
@@ -28,43 +24,18 @@ Following build targets are supported
 - Linux (64 bit)
 - Lumin / Magic Leap
 
-![Screenshot of loaded fish textures](https://raw.githubusercontent.com/atteneder/KtxUnityDemo/main/Images/fishes.png "Lots of fish basis universal textures loaded via BasisUniversalUnity")
-
-Thanks to [Khronos][khronos], [Binomial][binomial] and everyone involved in making KTX and Basis Universal available!
+![Screenshot of loaded fish textures](./Documentation~/Images/fishes.png "Lots of fish basis universal textures loaded via BasisUniversalUnity")
 
 ## Installing
 
-The easiest way to install is to download and open the [Installer Package](https://package-installer.glitch.me/v1/installer/OpenUPM/com.atteneder.ktx?registry=https%3A%2F%2Fpackage.openupm.com&scope=com.atteneder)
+To install *KTX for Unity* package, follow these steps:
 
-It runs a script that installs KtxUnity via a [scoped registry][scoped]. After that it is listed in the *Package Manager* and can be updated from there.
-
-<details><summary>Alternative / Legacy installations (for Unity 2018.4 and older)</summary>
-
-Install manually via package URL
-
-You have to manually add the package's URL into your [project manifest](https://docs.unity3d.com/Manual/upm-manifestPrj.html)
-
-Inside your Unity project there's the folder `Packages` containing a file called `manifest.json`. You have to open it and add the following line inside the `dependencies` category:
-
-```json
-"com.atteneder.ktx": "https://gitlab.com/atteneder/ktxunity.git",
-```
-
-It should look something like this:
-
-```json
-{
-  "dependencies": {
-    "com.atteneder.ktx": "https://gitlab.com/atteneder/ktxunity.git",
-    "com.unity.modules.unitywebrequest": "1.0.0"
-    ...
-  }
-}
-```
-
-Next time you open your project in Unity, it will download the package automatically. You have to have a GIT LFS client (large file support) installed on your system. Otherwise you will get an error that the native library file (dll on Windows) is corrupt. There's more detail about how to add packages via GIT URLs in the [Unity documentation](https://docs.unity3d.com/Manual/upm-git.html).
-
-</details>
+In your Unity project, go to Windows > Package Manager.
+On the status bar, select the Add (+) button.
+From the Add menu, select Add + package by name. Name and Version fields appear.
+In the Name field, enter `com.unity.cloud.ktx`.
+Select Add.
+The Editor installs the latest available version of the package and any dependent packages.
 
 ## Using
 
@@ -76,11 +47,9 @@ The API provides the loading classes `KtxTexture` for KTX 2.0 files and `BasisUn
 
 See [TextureBase](./Runtime/Scripts/TextureBase.cs) for complete signature.
 
-> Take a look at the demo project [KtxUnityDemo](https://github.com/atteneder/KtxUnityDemo) for extensive usage examples.
-
 ### Loading Textures
 
-Excerpt from [KtxUnityDemo](https://github.com/atteneder/KtxUnityDemo/blob/main/Assets/Scripts/LoadKtxFileDemo.cs) how to load a file (for example from StreamingAssets):
+How to load a file (for example from StreamingAssets):
 
 ```C#
 …
@@ -117,7 +86,7 @@ async void Start() {
 
 ### Using as Sprite
 
-If you want to use the texture in a UI / Sprite context, this is how you create a Sprite with correct orientation (excerpt from [BasisImageLoader](https://github.com/atteneder/KtxUnityDemo/blob/main/Assets/Scripts/LoadBasisFileSpriteDemo.cs)):
+If you want to use the texture in a UI / Sprite context, this is how you create a Sprite with correct orientation:
 
 ```C#
 …
@@ -205,21 +174,18 @@ At the moment known shortcomings:
 - Only 2D image texture types (no cube-map, videos, 3D texture, 2D arrays)
 - Only RGB/RGBA is tested (RG,R untested)
 
-## Support
-
-Like this demo? You can show your appreciation and ...
-
-[![Buy me a coffee](https://az743702.vo.msecnd.net/cdn/kofi1.png?v=0)][kofi]
-
 ## Trademarks
 
 *Unity* is a registered trademark of [Unity Technologies][unity].
 
-*Khronos®* is a registered trademark and *KTX™* is a trademark of [The Khronos Group Inc][khronos].
+Khronos&reg; and the Khronos Group logo are registered trademarks of the [The Khronos Group Inc][khronos].
+
+KTX&trade; and the KTX logo are trademarks of the [The Khronos Group Inc][khronos].
 
 ## License
 
-Copyright (c) 2019 Andreas Atteneder, All Rights Reserved.
+Copyright 2023 Unity Technologies and the *KTX for Unity* authors
+
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use files in this repository except in compliance with the License.
 You may obtain a copy of the License at
@@ -236,7 +202,6 @@ limitations under the License.
 [binomial]: http://www.binomial.info
 [khronos]: https://www.khronos.org
 [kofi]: https://ko-fi.com/C0C3BW7G
+[ktx]: https://github.com/KhronosGroup/KTX-Specification
 [ktxsoftware]: https://github.com/KhronosGroup/KTX-Software
-[ktx]: http://github.khronos.org/KTX-Specification
-[scoped]: https://docs.unity3d.com/Manual/upm-scoped.html
 [unity]: https://unity.com
