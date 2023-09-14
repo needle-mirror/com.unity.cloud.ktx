@@ -22,25 +22,25 @@ namespace SubPackage
                 {
                     name = "com.unity.cloud.ktx.webgl-2023",
                     minimumUnityVersion = "2023.2.0a17",
-                    version = "1.0.0-pre.1"
+                    version = "1.0.0"
                 },
                 new SubPackageEntrySchema()
                 {
                     name = "com.unity.cloud.ktx.webgl-2022",
                     minimumUnityVersion = "2022.2.0",
-                    version = "1.0.0-pre.1"
+                    version = "1.0.0"
                 },
                 new SubPackageEntrySchema()
                 {
                     name = "com.unity.cloud.ktx.webgl-2021",
                     minimumUnityVersion = "2021.2.0",
-                    version = "1.0.0-pre.1"
+                    version = "1.0.0"
                 },
                 new SubPackageEntrySchema()
                 {
                     name = "com.unity.cloud.ktx.webgl-2020",
                     minimumUnityVersion = "2019.2.0",
-                    version = "1.0.0-pre.1"
+                    version = "1.0.0"
                 }
             }
         };

@@ -37,6 +37,8 @@ In the Name field, enter `com.unity.cloud.ktx`.
 Select Add.
 The Editor installs the latest available version of the package and any dependent packages.
 
+> **NOTE:** This package originally had the identifier `com.atteneder.ktx`. Consult the [upgrade guide](./Documentation~/upgrade-guide.md#unity-fork) to learn how to switch to the Unity version (`com.unity.cloud.ktx`) or [install the original package](./Documentation~/Original.md).
+
 ## Using
 
 The API provides the loading classes `KtxTexture` for KTX 2.0 files and `BasisUniversalTexture` for Basis files, which both offer the following async loading methods:
