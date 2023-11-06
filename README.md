@@ -204,6 +204,6 @@ limitations under the License.
 [binomial]: http://www.binomial.info
 [khronos]: https://www.khronos.org
 [kofi]: https://ko-fi.com/C0C3BW7G
-[ktx]: https://github.com/KhronosGroup/KTX-Specification
+[ktx]: https://www.khronos.org/ktx/
 [ktxsoftware]: https://github.com/KhronosGroup/KTX-Software
 [unity]: https://unity.com

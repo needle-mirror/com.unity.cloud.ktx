@@ -108,5 +108,5 @@ KTX&trade; and the KTX logo are trademarks of the [The Khronos Group Inc][khrono
 
 [basisu]: https://github.com/BinomialLLC/basis_universal
 [khronos]: https://www.khronos.org
-[ktx]: https://github.com/KhronosGroup/KTX-Specification
+[ktx]: https://www.khronos.org/ktx/
 [unity]: https://unity.com
