@@ -19,12 +19,14 @@ The Editor installs the latest available version of the package and any dependen
 
 - WebGL
 - iOS (arm64 and armv7a)
-- Android (arm64 and armv7a)
+- tvOS
+- Android
 - Windows (64 bit)
 - Universal Windows Platform (x64, x86, ARM, ARM64)
 - MacOS Universal (Apple Silicon and Intel)
 - Linux (64 bit)
 - Lumin / Magic Leap
+- Embedded Linux
 
 ## Prerequisites
 

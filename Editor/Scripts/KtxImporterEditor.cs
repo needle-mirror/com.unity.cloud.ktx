@@ -9,7 +9,7 @@ using UnityEditor.AssetImporters;
 using UnityEditor.Experimental.AssetImporters;
 #endif
 
-namespace KtxUnity
+namespace KtxUnity.Editor
 {
     [CustomEditor(typeof(KtxImporter))]
     class KtxImporterEditor : ScriptedImporterEditor

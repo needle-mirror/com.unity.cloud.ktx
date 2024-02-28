@@ -1,8 +1,14 @@
 // SPDX-FileCopyrightText: 2023 Unity Technologies and the KTX for Unity authors
 // SPDX-License-Identifier: Apache-2.0
 
+#if UNITY_STANDALONE || UNITY_WEBGL || UNITY_IOS || UNITY_TVOS || UNITY_ANDROID || UNITY_WSA || UNITY_LUMIN || UNITY_EMBEDDED_LINUX
+#define KTX_PLATFORM_SUPPORTED
+#else
+#define KTX_PLATFORM_NOT_SUPPORTED
+#endif
 
 using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
@@ -16,10 +22,13 @@ namespace KtxUnity
 {
     class KtxNativeInstance : IMetaData, ILevelInfo
     {
-#if UNITY_EDITOR_OSX || UNITY_WEBGL || (UNITY_IOS && !UNITY_EDITOR)
-        public const string interfaceDLL = "__Internal";
-#elif UNITY_ANDROID || UNITY_STANDALONE || UNITY_WSA || UNITY_EDITOR || PLATFORM_LUMIN
-        public const string interfaceDLL = "ktx_unity";
+#if !UNITY_EDITOR && (UNITY_WEBGL || UNITY_IOS || UNITY_TVOS)
+        internal const string ktxLibrary = "__Internal";
+#elif UNITY_EDITOR || UNITY_ANDROID || UNITY_STANDALONE || UNITY_WSA || PLATFORM_LUMIN || UNITY_EMBEDDED_LINUX
+        internal const string ktxLibrary = "ktx_unity";
+#else
+        // Unsupported platform
+        internal const string ktxLibrary = "UnsupportedPlatform";
 #endif
 
         /// <summary>
@@ -596,37 +605,55 @@ namespace KtxUnity
                 case VkFormat.MaxEnum:
                 default:
 #if DEBUG
-                    Debug.LogError(@"You're trying to load an untested/unsupported format. Please enter the correct format conversion in `KtxNativeInstance.cs`, test it and make a pull request. Otherwise please open an issue with a sample file.");
+                    Debug.LogError("You're trying to load an untested/unsupported format. Please enter the correct format conversion in `KtxNativeInstance.cs`, test it and make a pull request. Otherwise please open an issue with a sample file.");
 #endif
                     return GraphicsFormat.None;
             }
         }
 
-        [DllImport(interfaceDLL)]
+#if !UNITY_EDITOR && KTX_PLATFORM_SUPPORTED
+        [System.Diagnostics.Conditional("FALSE")]
+#endif
+        internal static void CertifySupportedPlatform()
+        {
+#if KTX_PLATFORM_NOT_SUPPORTED
+#if UNITY_EDITOR
+#if !KTX_IGNORE_PLATFORM_NOT_SUPPORTED
+            throw new NotSupportedException("KTX for Unity is not supported on the active build target. This will not work in a build, please switch to a supported platform in the build settings. You can bypass this exception in the Editor by setting the scripting define `KTX_IGNORE_PLATFORM_NOT_SUPPORTED`.");
+#endif // !KTX_IGNORE_PLATFORM_NOT_SUPPORTED
+#else
+            // In a build, always throw the exception.
+            throw new NotSupportedException("KTX for Unity is not supported on this platform.");
+#endif
+#endif // KTX_PLATFORM_NOT_SUPPORTED
+        }
+
+        [DllImport(ktxLibrary)]
         static extern unsafe IntPtr ktx_load_ktx(void* data, uint length, out KtxErrorCode status);
 
-        [DllImport(interfaceDLL)]
+        [DllImport(ktxLibrary)]
         static extern uint ktx_get_baseWidth(IntPtr ktxTexture);
 
-        [DllImport(interfaceDLL)]
+        [DllImport(ktxLibrary)]
         static extern uint ktx_get_baseHeight(IntPtr ktxTexture);
 
-        [DllImport(interfaceDLL)]
+        [DllImport(ktxLibrary)]
         static extern uint ktx_get_baseDepth(IntPtr ktxTexture);
 
-        [DllImport(interfaceDLL)]
+        [DllImport(ktxLibrary)]
+        [return: MarshalAs(UnmanagedType.U1)]
         static extern bool ktxTexture2_NeedsTranscoding(IntPtr ktxTexture);
 
-        [DllImport(interfaceDLL)]
+        [DllImport(ktxLibrary)]
         static extern uint ktxTexture2_GetNumComponents(IntPtr ktxTexture);
 
-        [DllImport(interfaceDLL)]
+        [DllImport(ktxLibrary)]
         public static extern KtxErrorCode ktxTexture2_TranscodeBasis(IntPtr ktxTexture, TranscodeFormat outputFormat, uint transcodeFlags);
 
-        [DllImport(interfaceDLL)]
+        [DllImport(ktxLibrary)]
         static extern unsafe void ktx_get_data(IntPtr ktxTexture, out byte* data, out uint length);
 
-        [DllImport(interfaceDLL)]
+        [DllImport(ktxLibrary)]
         static extern unsafe KtxErrorCode ktx_copy_data_levels_reverted(
             IntPtr ktxTexture,
             uint startLevel,
@@ -636,68 +663,73 @@ namespace KtxUnity
             uint destinationLength
             );
 
-        [DllImport(interfaceDLL)]
+        [DllImport(ktxLibrary)]
         static extern void ktx_unload_ktx(IntPtr ktxTexture);
 
-        [DllImport(interfaceDLL)]
+        [DllImport(ktxLibrary)]
         static extern uint ktx_get_numLevels(IntPtr ktxTexture);
 
-        [DllImport(interfaceDLL)]
+        [DllImport(ktxLibrary)]
         static extern uint ktx_get_orientation(IntPtr ktxTexture);
 
-        [DllImport(interfaceDLL)]
+        [DllImport(ktxLibrary)]
         static extern KtxClassId ktx_get_classId(IntPtr ktxTexture);
 
-        [DllImport(interfaceDLL)]
+        [DllImport(ktxLibrary)]
+        [return: MarshalAs(UnmanagedType.U1)]
         static extern bool ktx_get_isArray(IntPtr ktxTexture);
 
-        [DllImport(interfaceDLL)]
+        [DllImport(ktxLibrary)]
+        [return: MarshalAs(UnmanagedType.U1)]
         static extern bool ktx_get_isCubemap(IntPtr ktxTexture);
 
-        [DllImport(interfaceDLL)]
+        [DllImport(ktxLibrary)]
+        [return: MarshalAs(UnmanagedType.U1)]
         static extern bool ktx_get_isCompressed(IntPtr ktxTexture);
 
-        [DllImport(interfaceDLL)]
+        [DllImport(ktxLibrary)]
         static extern uint ktx_get_numDimensions(IntPtr ktxTexture);
 
-        [DllImport(interfaceDLL)]
+        [DllImport(ktxLibrary)]
         static extern uint ktx_get_numLayers(IntPtr ktxTexture);
 
-        [DllImport(interfaceDLL)]
+        [DllImport(ktxLibrary)]
         static extern uint ktx_get_numFaces(IntPtr ktxTexture);
 
-        [DllImport(interfaceDLL)]
+        [DllImport(ktxLibrary)]
         static extern VkFormat ktx_get_vkFormat(IntPtr ktxTexture);
 
         /*
 
-        [DllImport(INTERFACE_DLL)]
+        [DllImport(ktxLibrary)]
         static extern KtxSuperCompressionScheme ktx_get_supercompressionScheme ( System.IntPtr ktxTexture );
         //*/
 
-        [DllImport(interfaceDLL)]
+        [DllImport(ktxLibrary)]
         static extern KtxErrorCode ktx_get_image_offset(
             IntPtr ktxTexture,
             uint level,
             uint layer,
             uint faceSlice,
-            out int pOffset
+            [MarshalAs(UnmanagedType.SysUInt)]
+            out uint pOffset
             );
 
-        [DllImport(interfaceDLL)]
+        [DllImport(ktxLibrary)]
         static extern uint ktx_get_image_size(
             IntPtr ktxTexture,
             uint level
         );
 
 #if KTX_UNITY_GPU_UPLOAD
-        [DllImport(INTERFACE_DLL)]
+        [DllImport(ktxLibrary)]
         static extern void ktx_enqueue_upload(IntPtr ktx);
 
-        [DllImport(INTERFACE_DLL)]
+        [DllImport(ktxLibrary)]
+        [return: MarshalAs(UnmanagedType.U1)]
         static extern bool ktx_dequeue_upload(IntPtr ktx, out IntPtr texture, out uint error);
 
-        [DllImport(INTERFACE_DLL)]
+        [DllImport(ktxLibrary)]
         static extern IntPtr GetRenderEventFunc();
 #endif
     }

@@ -320,7 +320,7 @@ namespace KtxUnity
                     {
                         continue;
                     }
-                    var supported = SystemInfo.IsFormatSupported(formatInfo.formats.format, isLinear ? FormatUsage.Linear : FormatUsage.Sample);
+                    var supported = IsFormatSupported(formatInfo.formats.format, isLinear);
                     if (supported)
                     {
                         s_FormatCache[features] = formatInfo.formats;
@@ -443,6 +443,18 @@ namespace KtxUnity
             return (required & provided) == required;
         }
 
+        internal static bool IsFormatSupported(GraphicsFormat graphicsFormat, bool linear = false)
+        {
+            return SystemInfo.IsFormatSupported(
+                graphicsFormat,
+#if UNITY_2023_2_OR_NEWER
+                linear ? GraphicsFormatUsage.Linear : GraphicsFormatUsage.Sample
+#else
+                linear ? FormatUsage.Linear : FormatUsage.Sample
+#endif
+            );
+        }
+
 #if KTX_VERBOSE
         // ReSharper disable Unity.PerformanceAnalysis
         static void CheckTextureSupport () {
@@ -458,7 +470,7 @@ namespace KtxUnity
 
             var sb = new StringBuilder();
             foreach(var formatInfo in s_AllFormats) {
-                var supported = SystemInfo.IsFormatSupported(formatInfo.formats.format,FormatUsage.Sample);
+                var supported = IsFormatSupported(formatInfo.formats.format);
                 if(supported) {
                     graphicsFormats.Add(formatInfo.formats);
                 }
@@ -469,24 +481,53 @@ namespace KtxUnity
 
             sb.Clear();
 
-            GraphicsFormat[] allGfxFormats = (GraphicsFormat[]) Enum.GetValues(typeof(GraphicsFormat));
+            var allGfxFormats = (GraphicsFormat[]) Enum.GetValues(typeof(GraphicsFormat));
             foreach(var format in allGfxFormats) {
-                sb.AppendFormat(
-                    "{0} Sample:{1} Blend:{2} GetPixels:{3} Linear:{4} LoadStore:{5} MSAA2x:{6} MSAA4x:{7} MSAA8x:{8} ReadPixels:{9} Render:{10} SetPixels:{11} Sparse:{12}\n"
-                    ,format
-                    ,SystemInfo.IsFormatSupported(format,FormatUsage.Sample)?"1":"0"
-                    ,SystemInfo.IsFormatSupported(format,FormatUsage.Blend)?"1":"0"
-                    ,SystemInfo.IsFormatSupported(format,FormatUsage.GetPixels)?"1":"0"
-                    ,SystemInfo.IsFormatSupported(format,FormatUsage.Linear)?"1":"0"
-                    ,SystemInfo.IsFormatSupported(format,FormatUsage.LoadStore)?"1":"0"
-                    ,SystemInfo.IsFormatSupported(format,FormatUsage.MSAA2x)?"1":"0"
-                    ,SystemInfo.IsFormatSupported(format,FormatUsage.MSAA4x)?"1":"0"
-                    ,SystemInfo.IsFormatSupported(format,FormatUsage.MSAA8x)?"1":"0"
-                    ,SystemInfo.IsFormatSupported(format,FormatUsage.ReadPixels)?"1":"0"
-                    ,SystemInfo.IsFormatSupported(format,FormatUsage.Render)?"1":"0"
-                    ,SystemInfo.IsFormatSupported(format,FormatUsage.SetPixels)?"1":"0"
-                    ,SystemInfo.IsFormatSupported(format,FormatUsage.Sparse)?"1":"0"
-                );
+                sb.Append(format).Append(' ');
+                var usages = new[]
+                {
+#if UNITY_2023_2_OR_NEWER
+                    GraphicsFormatUsage.Sample,
+                    GraphicsFormatUsage.Blend,
+                    GraphicsFormatUsage.GetPixels,
+                    GraphicsFormatUsage.Linear,
+                    GraphicsFormatUsage.LoadStore,
+                    GraphicsFormatUsage.MSAA2x,
+                    GraphicsFormatUsage.MSAA4x,
+                    GraphicsFormatUsage.MSAA8x,
+                    GraphicsFormatUsage.ReadPixels,
+                    GraphicsFormatUsage.Render,
+                    GraphicsFormatUsage.SetPixels,
+                    GraphicsFormatUsage.SetPixels32,
+                    GraphicsFormatUsage.Sparse,
+                    GraphicsFormatUsage.StencilSampling,
+#else
+                    FormatUsage.Sample,
+                    FormatUsage.Blend,
+                    FormatUsage.GetPixels,
+                    FormatUsage.Linear,
+                    FormatUsage.LoadStore,
+                    FormatUsage.MSAA2x,
+                    FormatUsage.MSAA4x,
+                    FormatUsage.MSAA8x,
+                    FormatUsage.ReadPixels,
+                    FormatUsage.Render,
+                    FormatUsage.SetPixels,
+                    FormatUsage.SetPixels32,
+                    FormatUsage.Sparse,
+                    FormatUsage.StencilSampling,
+#endif
+                };
+                foreach (var usage in usages)
+                {
+                    sb
+                        .Append(usage)
+                        .Append(':')
+                        .Append(SystemInfo.IsFormatSupported(format, usage) ? "1" : "0")
+                        .Append(' ');
+                }
+
+                sb.Append('\n');
             }
 
             Debug.Log(sb.ToString());

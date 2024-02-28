@@ -59,10 +59,10 @@ namespace KtxUnity
             result[0] = success;
         }
 
-        [DllImport(KtxNativeInstance.interfaceDLL)]
+        [DllImport(KtxNativeInstance.ktxLibrary)]
         static extern bool ktx_basisu_startTranscoding(IntPtr basis);
 
-        [DllImport(KtxNativeInstance.interfaceDLL)]
+        [DllImport(KtxNativeInstance.ktxLibrary)]
         static extern bool ktx_basisu_transcodeImage(
             IntPtr basis,
             void* dst,

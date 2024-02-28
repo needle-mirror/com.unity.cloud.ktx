@@ -19,13 +19,6 @@ namespace KtxUnity
 
         KtxNativeInstance m_Ktx;
 
-        /// <inheritdoc />
-        public override ErrorCode Open(NativeSlice<byte> data)
-        {
-            m_Ktx = new KtxNativeInstance();
-            return m_Ktx.Load(data);
-        }
-
         // ReSharper disable MemberCanBePrivate.Global
 
         /// <summary>
@@ -111,6 +104,13 @@ namespace KtxUnity
         // ReSharper restore MemberCanBePrivate.Global
 
         /// <inheritdoc />
+        public override ErrorCode Open(NativeSlice<byte> data)
+        {
+            KtxNativeInstance.CertifySupportedPlatform();
+            return OpenInternal(data);
+        }
+
+        /// <inheritdoc />
         public override async Task<TextureResult> LoadTexture2D(
             bool linear = false,
             uint layer = 0,
@@ -119,6 +119,7 @@ namespace KtxUnity
             bool mipChain = true
         )
         {
+            Assert.IsNotNull(m_Ktx, "KtxTexture in invalid state. Open has to be called first.");
             return await LoadTexture2DInternal(
                 linear,
                 layer,
@@ -136,7 +137,8 @@ namespace KtxUnity
             bool mipChain = true
         )
         {
-            if (!SystemInfo.IsFormatSupported(targetFormat, FormatUsage.Sample))
+            Assert.IsNotNull(m_Ktx, "KtxTexture in invalid state. Open has to be called first.");
+            if (!TranscodeFormatHelper.IsFormatSupported(targetFormat))
             {
                 return new TextureResult(ErrorCode.FormatUnsupportedBySystem);
             }
@@ -149,13 +151,39 @@ namespace KtxUnity
                 targetFormat);
         }
 
+        internal async Task<TextureResult> LoadFromBytesInternal(
+            NativeSlice<byte> data,
+            bool linear = false,
+            uint layer = 0,
+            uint faceSlice = 0,
+            uint mipLevel = 0,
+            bool mipChain = true
+        )
+        {
+            var result = new TextureResult
+            {
+                errorCode = OpenInternal(data)
+            };
+            if (result.errorCode != ErrorCode.Success) return result;
+            result = await LoadTexture2DInternal(linear, layer, faceSlice, mipLevel, mipChain);
+            Dispose();
+            return result;
+        }
+
+
+        ErrorCode OpenInternal(NativeSlice<byte> data)
+        {
+            m_Ktx = new KtxNativeInstance();
+            return m_Ktx.Load(data);
+        }
+
         async Task<TextureResult> LoadTexture2DInternal(
             bool linear = false,
             uint layer = 0,
             uint faceSlice = 0,
             uint mipLevel = 0,
             bool mipChain = true,
-            GraphicsFormat? transcodeFormat = null
+            GraphicsFormat? targetFormat = null
             )
         {
             var result = new TextureResult();
@@ -168,9 +196,9 @@ namespace KtxUnity
                     {
 
                         TranscodeFormatTuple? formats;
-                        if (transcodeFormat.HasValue)
+                        if (targetFormat.HasValue)
                         {
-                            formats = TranscodeFormatHelper.GetTranscodeFormats(transcodeFormat.Value);
+                            formats = TranscodeFormatHelper.GetTranscodeFormats(targetFormat.Value);
                         }
                         else
                         {
@@ -212,7 +240,7 @@ namespace KtxUnity
                             result.errorCode = ErrorCode.UnsupportedFormat;
                         }
                         else
-                        if (!SystemInfo.IsFormatSupported(graphicsFormat, linear ? FormatUsage.Linear : FormatUsage.Sample))
+                        if (!TranscodeFormatHelper.IsFormatSupported(graphicsFormat, linear))
                         {
                             result.errorCode = ErrorCode.FormatUnsupportedBySystem;
                         }
@@ -283,7 +311,19 @@ namespace KtxUnity
         /// <inheritdoc />
         public override void Dispose()
         {
+            Assert.IsNotNull(m_Ktx, "KtxTexture in invalid state. Open has to be called first.");
             m_Ktx.Unload();
+            m_Ktx = null;
+        }
+
+        internal GraphicsFormat GetGraphicsFormat()
+        {
+            if (m_Ktx.valid && m_Ktx.ktxClass == KtxClassId.KtxTexture2 && !m_Ktx.needsTranscoding)
+            {
+                return m_Ktx.graphicsFormat;
+            }
+
+            return GraphicsFormat.None;
         }
 
         async Task<ErrorCode> TranscodeInternal(

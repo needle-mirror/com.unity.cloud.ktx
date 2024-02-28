@@ -101,10 +101,10 @@ namespace KtxUnity
             return jobHandle;
         }
 
-        [DllImport(KtxNativeInstance.interfaceDLL)]
+        [DllImport(KtxNativeInstance.ktxLibrary)]
         static extern void ktx_basisu_basis_init();
 
-        [DllImport(KtxNativeInstance.interfaceDLL)]
+        [DllImport(KtxNativeInstance.ktxLibrary)]
         static extern IntPtr ktx_basisu_create_basis();
     }
 }

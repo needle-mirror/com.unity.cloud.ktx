@@ -24,6 +24,7 @@ namespace KtxUnity
         /// <inheritdoc />
         public override ErrorCode Open(NativeSlice<byte> data)
         {
+            KtxNativeInstance.CertifySupportedPlatform();
             m_InputData = data;
             return ErrorCode.Success;
         }
@@ -37,9 +38,11 @@ namespace KtxUnity
             bool mipChain = true
         )
         {
+            KtxNativeInstance.CertifySupportedPlatform();
             return await LoadTexture2DInternal(
                 linear,
                 layer,
+                0,
                 mipLevel,
                 mipChain);
         }
@@ -53,20 +56,41 @@ namespace KtxUnity
             bool mipChain = true
         )
         {
+            KtxNativeInstance.CertifySupportedPlatform();
             return await LoadTexture2DInternal(
                 true,
                 layer,
+                0,
                 mipLevel,
                 mipChain,
                 targetFormat);
         }
 
+        /// <inheritdoc />
+        public override void Dispose() { }
+
+        internal async Task<TextureResult> LoadFromBytesInternal(
+            NativeSlice<byte> data,
+            bool linear = false,
+            uint layer = 0,
+            uint faceSlice = 0,
+            uint mipLevel = 0,
+            bool mipChain = true
+        )
+        {
+            m_InputData = data;
+            var result = await LoadTexture2DInternal(linear, layer, faceSlice, mipLevel, mipChain);
+            Dispose();
+            return result;
+        }
+
         async Task<TextureResult> LoadTexture2DInternal(
             bool linear = false,
             uint layer = 0,
+            uint faceSlice = 0,
             uint mipLevel = 0,
             bool mipChain = true,
-            GraphicsFormat? transcodeFormat = null
+            GraphicsFormat? targetFormat = null
         )
         {
             var transcoder = BasisUniversal.GetTranscoderInstance();
@@ -85,8 +109,8 @@ namespace KtxUnity
             {
                 m_MetaData = transcoder.LoadMetaData();
 
-                var formatTuple = transcodeFormat.HasValue
-                    ? TranscodeFormatHelper.GetTranscodeFormats(transcodeFormat.Value)
+                var formatTuple = targetFormat.HasValue
+                    ? TranscodeFormatHelper.GetTranscodeFormats(targetFormat.Value)
                     : GetFormat(m_MetaData, m_MetaData.images[layer].levels[0], linear);
 
                 if (formatTuple.HasValue)
@@ -151,9 +175,6 @@ namespace KtxUnity
             Profiler.EndSample();
             return result;
         }
-
-        /// <inheritdoc />
-        public override void Dispose() { }
 
         async Task<ErrorCode> Transcode(
             BasisUniversalTranscoderInstance transcoder,

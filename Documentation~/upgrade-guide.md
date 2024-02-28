@@ -37,4 +37,5 @@ Khronos&reg; and the Khronos Group logo are registered trademarks of the [The Kh
 KTX&trade; and the KTX logo are trademarks of the [The Khronos Group Inc][khronos].
 
 [khronos]: https://www.khronos.org
+[OpenUPM]: https://openupm.com/
 [unity]: https://unity.com

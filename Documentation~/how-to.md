@@ -13,26 +13,26 @@ The API provides the loading classes `KtxTexture` for [KTX&trade; 2.0][ktx] file
 using KtxUnity;
 …
 async void Start() {
-        
+
     // Create KTX texture instance
     var texture = new KtxTexture();
-    
-    // Linear color sampling. Needed for non-color value textures (e.g. normal maps) 
+
+    // Linear color sampling. Needed for non-color value textures (e.g. normal maps)
     bool linearColor = true;
-    
+
     // Load file from Streaming Assets folder (relative path)
     var result = await texture.LoadFromStreamingAssets("trout.ktx", linearColor);
-    
+
     // Alternative: Load from URL
     // var result = await texture.LoadFromUrl("https://myserver.com/trout.ktx", linearColor);
-    
+
     // Alternative: Load from memory
     // var result = await texture.LoadFromBytes(nativeArray, linearColor);
 
     if (result != null) {
         // Use texture. For example, apply texture to a material
         targetMaterial.mainTexture = result.texture;
-        
+
         // Optional: Support arbitrary texture orientation by flipping the texture if necessary
         var scale = targetMaterial.mainTextureScale;
         scale.x = result.orientation.IsXFlipped() ? -1 : 1;
@@ -51,10 +51,10 @@ If you want to use the texture in a UI / Sprite context, this is how you create 
 using KtxUnity;
 …
 async void Start() {
-        
+
     // Create a basis universal texture instance
     var texture = new BasisUniversalTexture();
-    
+
     // Load file from Streaming Assets folder
     var result = await texture.LoadFromStreamingAssets("dachstein.basis");
 
@@ -76,11 +76,11 @@ async void Start() {
 
         // Create a Sprite and assign it to the Image
         GetComponent<Image>().sprite = Sprite.Create(result.texture, new Rect(pos, size), Vector2.zero);
-        
+
         // Preserve aspect ratio:
         // Flipping the sprite by making the size x or y negative (above) breaks Image's `Preserve Aspect` feature
         // You can/have to calculate the RectTransform size yourself. Example:
-        
+
         // Calculate correct size and assign it to the RectTransform
         const float scale = 0.5f; // Set this to whatever size you need it - best make it a serialized class field
         var rt = GetComponent<RectTransform>();

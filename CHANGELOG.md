@@ -4,9 +4,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.0] - 2024-02-28
+
+### Added
+- Embedded Linux support
+- Apple tvOS support
+- Android x86 and x86_64 support
+- Runtime tests that load KTX 2.0 files
+
+### Changed
+- Moved Editor scripts into namespace `KtxUnity.Editor`
+- Updated binaries to version 1.2.1.
+
+### Fixed
+- Code format in markdown files
+- Apple iOS device and simulator SDK binaries are properly included/excluded, depending on target SDK.
+- Compilation succeeds on non-supported platforms
+- `System.EntryPointNotFoundException` for symbols `ktx_get_image_offset` and `ktx_get_image_size` on Windows.
+- Using GraphicsFormatUsage (instead of the obsolete FormatUsage) in 2023.2 or newer.
+- Crashes and undefined behavior caused by incorrect marshaling when using the IL2CPP scripting.
+
 ## [3.2.2] - 2023-11-14
 
-## Fixed
+### Fixed
 - Fixed CI failing on isolation tests because of the WebGL sub-package import. Now imports the package synchronously in batch mode.
 
 ## [3.2.1] - 2023-11-06
@@ -18,7 +38,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [3.2.0] - 2023-09-14
 
 ### Changed
-- Updated binaries to 1.0.0 version.
+- Updated binaries to version 1.1.1.
+- Updated WebGL sub-packages to version 1.0.0.
 
 ## [3.1.0] - 2023-08-25
 
@@ -189,7 +210,7 @@ Ported changes from 1.2.0
 
 ### Added
 - Support for Lumin / Magic Leap
-- Support for Apple Silicon on macOS via a universal library 
+- Support for Apple Silicon on macOS via a universal library
 
 ### Changed
 - Updated KTX-Software-Unity to [0.4.1](https://github.com/atteneder/KTX-Software-Unity/releases/tag/v0.4.1)

@@ -154,6 +154,7 @@ namespace KtxUnity
             bool mipChain = true
             )
         {
+            KtxNativeInstance.CertifySupportedPlatform();
             var result = new TextureResult
             {
                 errorCode = Open(data)
@@ -188,6 +189,7 @@ namespace KtxUnity
             bool mipChain = true
         )
         {
+            KtxNativeInstance.CertifySupportedPlatform();
             var result = new TextureResult
             {
                 errorCode = Open(data)

@@ -17,12 +17,14 @@ Following build targets are supported
 
 - WebGL
 - iOS (arm64 and armv7a)
-- Android (arm64 and armv7a)
+- tvOS
+- Android
 - Windows (64 bit)
 - Universal Windows Platform (x64,x86,ARM,ARM64)
 - macOS Universal (Apple Silicon and Intel)
 - Linux (64 bit)
 - Lumin / Magic Leap
+- Embedded Linux
 
 ![Screenshot of loaded fish textures](./Documentation~/Images/fishes.png "Lots of fish basis universal textures loaded via BasisUniversalUnity")
 
@@ -56,26 +58,26 @@ How to load a file (for example from StreamingAssets):
 ```C#
 …
 async void Start() {
-        
+
     // Create KTX texture instance
     var texture = new KtxTexture();
-    
-    // Linear color sampling. Needed for non-color value textures (e.g. normal maps) 
+
+    // Linear color sampling. Needed for non-color value textures (e.g. normal maps)
     bool linearColor = true;
-    
+
     // Load file from Streaming Assets folder (relative path)
     var result = await texture.LoadFromStreamingAssets("trout.ktx",linearColor);
-    
+
     // Alternative: Load from URL
     // var result = await texture.LoadFromUrl("https://myserver.com/trout.ktx", linearColor);
-    
+
     // Alternative: Load from memory
     // var result = await texture.LoadFromBytes(nativeArray, linearColor);
 
     if (result != null) {
         // Use texture. For example, apply texture to a material
         targetMaterial.mainTexture = result.texture;
-        
+
         // Optional: Support arbitrary texture orientation by flipping the texture if necessary
         var scale = targetMaterial.mainTextureScale;
         scale.x = result.orientation.IsXFlipped() ? -1 : 1;
@@ -93,10 +95,10 @@ If you want to use the texture in a UI / Sprite context, this is how you create 
 ```C#
 …
 async void Start() {
-        
+
     // Create a basis universal texture instance
     var texture = new BasisUniversalTexture();
-    
+
     // Load file from Streaming Assets folder
     var result = await texture.LoadFromStreamingAssets("dachstein.basis");
 
@@ -118,11 +120,11 @@ async void Start() {
 
         // Create a Sprite and assign it to the Image
         GetComponent<Image>().sprite = Sprite.Create(result.texture, new Rect(pos, size), Vector2.zero);
-        
+
         // Preserve aspect ratio:
         // Flipping the sprite by making the size x or y negative (above) breaks Image's `Preserve Aspect` feature
         // You can/have to calculate the RectTransform size yourself. Example:
-        
+
         // Calculate correct size and assign it to the RectTransform
         const float scale = 0.5f; // Set this to whatever size you need it - best make it a serialized class field
         var rt = GetComponent<RectTransform>();

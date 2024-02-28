@@ -171,46 +171,46 @@ namespace KtxUnity
             ktx_basisu_delete_basis(nativeReference);
         }
 
-        [DllImport(KtxNativeInstance.interfaceDLL)]
+        [DllImport(KtxNativeInstance.ktxLibrary)]
         static extern unsafe bool ktx_basisu_open_basis(IntPtr basis, void* data, int length);
 
-        [DllImport(KtxNativeInstance.interfaceDLL)]
+        [DllImport(KtxNativeInstance.ktxLibrary)]
         static extern void ktx_basisu_close_basis(IntPtr basis);
 
-        [DllImport(KtxNativeInstance.interfaceDLL)]
+        [DllImport(KtxNativeInstance.ktxLibrary)]
         static extern void ktx_basisu_delete_basis(IntPtr basis);
 
-        [DllImport(KtxNativeInstance.interfaceDLL)]
+        [DllImport(KtxNativeInstance.ktxLibrary)]
         static extern bool ktx_basisu_getHasAlpha(IntPtr basis);
 
-        [DllImport(KtxNativeInstance.interfaceDLL)]
+        [DllImport(KtxNativeInstance.ktxLibrary)]
         static extern uint ktx_basisu_getNumImages(IntPtr basis);
 
-        [DllImport(KtxNativeInstance.interfaceDLL)]
+        [DllImport(KtxNativeInstance.ktxLibrary)]
         static extern uint ktx_basisu_getNumLevels(IntPtr basis, uint imageIndex);
 
-        [DllImport(KtxNativeInstance.interfaceDLL)]
+        [DllImport(KtxNativeInstance.ktxLibrary)]
         static extern uint ktx_basisu_getImageWidth(IntPtr basis, uint imageIndex, uint levelIndex);
 
-        [DllImport(KtxNativeInstance.interfaceDLL)]
+        [DllImport(KtxNativeInstance.ktxLibrary)]
         static extern uint ktx_basisu_getImageHeight(IntPtr basis, uint imageIndex, uint levelIndex);
 
-        [DllImport(KtxNativeInstance.interfaceDLL)]
+        [DllImport(KtxNativeInstance.ktxLibrary)]
         static extern bool ktx_basisu_get_y_flip(IntPtr basis);
 
-        // [DllImport(KtxNativeInstance.INTERFACE_DLL)]
+        // [DllImport(KtxNativeInstance.ktxLibrary)]
         // private static extern bool ktx_basisu_get_is_etc1s( IntPtr basis );
 
-        [DllImport(KtxNativeInstance.interfaceDLL)]
+        [DllImport(KtxNativeInstance.ktxLibrary)]
         static extern BasisUniversalTextureType ktx_basisu_get_texture_type(IntPtr basis);
 
-        [DllImport(KtxNativeInstance.interfaceDLL)]
+        [DllImport(KtxNativeInstance.ktxLibrary)]
         static extern uint ktx_basisu_getImageTranscodedSizeInBytes(IntPtr basis, uint imageIndex, uint levelIndex, uint format);
 
-        [DllImport(KtxNativeInstance.interfaceDLL)]
+        [DllImport(KtxNativeInstance.ktxLibrary)]
         static extern bool ktx_basisu_startTranscoding(IntPtr basis);
 
-        [DllImport(KtxNativeInstance.interfaceDLL)]
+        [DllImport(KtxNativeInstance.ktxLibrary)]
         static extern unsafe bool ktx_basisu_transcodeImage(IntPtr basis, void* dst, uint dstSize, uint imageIndex, uint levelIndex, uint format, uint pvrtcWrapAddressing, uint getAlphaForOpaqueFormats);
     }
 }
