@@ -20,8 +20,9 @@ The Editor installs the latest available version of the package and any dependen
 - WebGL
 - iOS (arm64 and armv7a)
 - tvOS
+- visionOS
 - Android
-- Windows (64 bit)
+- Windows (x64 and ARM64)
 - Universal Windows Platform (x64, x86, ARM, ARM64)
 - MacOS Universal (Apple Silicon and Intel)
 - Linux (64 bit)

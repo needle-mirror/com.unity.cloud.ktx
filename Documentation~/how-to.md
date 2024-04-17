@@ -1,11 +1,11 @@
 
 # How To
 
-The API provides the loading classes `KtxTexture` for [KTX&trade; 2.0][ktx] files and `BasisUniversalTexture` for [Basis Universal][basisu] files, which both offer the following async loading methods:
+The API provides the loading classes [KtxTexture](xref:KtxUnity.KtxTexture) for [KTX&trade; 2.0][ktx] files and [BasisUniversalTexture](xref:KtxUnity.BasisUniversalTexture) for [Basis Universal][basisu] files, which both offer the following async loading methods:
 
-- `LoadFromUrl` for loading URLs (including file URLs starting with `file://`)
-- `LoadFromStreamingAssets` for loading relative paths in the StreamingAssets folder
-- `LoadFromBytes` for loading from memory
+- [LoadFromUrl](xref:KtxUnity.TextureBase.LoadFromUrl*) for loading URLs (including file URLs starting with `file://`)
+- [LoadFromStreamingAssets](xref:KtxUnity.TextureBase.LoadFromStreamingAssets*) for loading relative paths in the StreamingAssets folder
+- [LoadFromBytes](xref:KtxUnity.TextureBase.LoadFromBytes*) for loading from memory
 
 ## Loading Textures
 
@@ -94,9 +94,9 @@ async void Start() {
 
 ## Advanced
 
-Developers who want to create advanced loading code should look into classes `KtxTexture`/`BasisUniversalTexture` and `TextureBase` directly.
+Developers who want to create advanced loading code should look into classes [KtxTexture](xref:KtxUnity.KtxTexture), [BasisUniversalTexture](xref:KtxUnity.BasisUniversalTexture) and [TextureBase](xref:KtxUnity.TextureBase) directly.
 
-When loading many textures at once, using the low-level API to get finer control over the loading process can yield great performance gains. Have a look at `TextureBase.Load` for starting and details.
+When loading many textures at once, using the low-level API to get finer control over the loading process can yield great performance gains. Have a look at [Open](xref:KtxUnity.TextureBase.Open*), [LoadTexture2D](xref:KtxUnity.TextureBase.LoadTexture2D*) and [Dispose](xref:KtxUnity.TextureBase.Dispose) for details.
 
 ## Trademarks
 

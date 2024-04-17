@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2023 Unity Technologies and the KTX for Unity authors
 // SPDX-License-Identifier: Apache-2.0
 
-#if UNITY_STANDALONE || UNITY_WEBGL || UNITY_IOS || UNITY_TVOS || UNITY_ANDROID || UNITY_WSA || UNITY_LUMIN || UNITY_EMBEDDED_LINUX
+#if UNITY_STANDALONE || UNITY_WEBGL || UNITY_IOS || UNITY_TVOS || UNITY_VISIONOS || UNITY_ANDROID || UNITY_WSA || UNITY_LUMIN || UNITY_EMBEDDED_LINUX
 #define KTX_PLATFORM_SUPPORTED
 #else
 #define KTX_PLATFORM_NOT_SUPPORTED
@@ -22,7 +22,7 @@ namespace KtxUnity
 {
     class KtxNativeInstance : IMetaData, ILevelInfo
     {
-#if !UNITY_EDITOR && (UNITY_WEBGL || UNITY_IOS || UNITY_TVOS)
+#if !UNITY_EDITOR && (UNITY_WEBGL || UNITY_IOS || UNITY_TVOS || UNITY_VISIONOS)
         internal const string ktxLibrary = "__Internal";
 #elif UNITY_EDITOR || UNITY_ANDROID || UNITY_STANDALONE || UNITY_WSA || PLATFORM_LUMIN || UNITY_EMBEDDED_LINUX
         internal const string ktxLibrary = "ktx_unity";
@@ -305,7 +305,18 @@ namespace KtxUnity
                 texture.LoadRawTextureData((IntPtr)data, (int)length);
                 Profiler.EndSample();
             }
-            texture.Apply(false, true);
+            texture.Apply(
+                false,
+                // TODO: Expose `makeNoLongerReadable` parameter in API.
+#if UNITY_VISIONOS
+                // PolySpatial visionOS needs to able to access raw texture data in order to do the material/texture
+                // conversion.
+                false
+#else
+                // Free up texture memory by default.
+                true
+#endif
+                );
             Profiler.EndSample();
             return texture;
         }

@@ -1,9 +1,11 @@
 {
     "name": "Ktx.Editor.Tests",
+    "rootNamespace": "",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "Ktx",
+        "Ktx.Editor",
         "Unity.Mathematics"
     ],
     "includePlatforms": [

@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.0] - 2024-04-17
+
+### Added
+- Web binaries
+- (CI) Code coverage and static analysis.
+- Added Apple Privacy Manifest file to `/Plugins` directory.
+- Windows ARM64 support
+- Apple visionOS support
+
+### Changed
+- Updated binaries to version [1.3.0](https://github.com/Unity-Technologies/ktx-plugin/releases/tag/release-github%2F1.3.0) (contains KTX-Software 4.3.2).
+- Unity version-specific web sub-packages are not required anymore and will be removed automatically from the project upon detection (to avoid linker conflicts during web builds).
+
+### Fixed
+- GUID conflict with Draco for Unity (tests only)
+- Non-web libraries are properly included/excluded from builds again.
+- Apple iOS/tvOS Device/Simulator SDK libraries are correctly included again, even when target SDK is switched during a session.
+
 ## [3.3.0] - 2024-02-28
 
 ### Added
