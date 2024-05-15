@@ -1,6 +1,6 @@
 {
   "name": "com.unity.cloud.ktx",
-  "version": "3.4.0",
+  "version": "3.4.1",
   "displayName": "KTX for Unity",
   "description": "Load KTX 2.0 and Basis Universal textures at runtime and in the Editor.",
   "unity": "2020.3",
@@ -20,15 +20,15 @@
     "glTF"
   ],
   "_upm": {
-    "changelog": "### Added\n- Web binaries\n- (CI) Code coverage and static analysis.\n- Added Apple Privacy Manifest file to `/Plugins` directory.\n- Windows ARM64 support\n- Apple visionOS support\n\n### Changed\n- Updated binaries to version [1.3.0](https://github.com/Unity-Technologies/ktx-plugin/releases/tag/release-github%2F1.3.0) (contains KTX-Software 4.3.2).\n- Unity version-specific web sub-packages are not required anymore and will be removed automatically from the project upon detection (to avoid linker conflicts during web builds).\n\n### Fixed\n- GUID conflict with Draco for Unity (tests only)\n- Non-web libraries are properly included/excluded from builds again.\n- Apple iOS/tvOS Device/Simulator SDK libraries are correctly included again, even when target SDK is switched during a session."
+    "changelog": "### Added\n- Added Apple Privacy Manifest documentation."
   },
   "upmCi": {
-    "footprint": "dfa272551ff9d4eeaa532636f948c63a53139b1f"
+    "footprint": "cfbde38db9f11974ee0184e848c32bbec8cd6e98"
   },
   "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.cloud.ktx@3.4/manual/index.html",
   "repository": {
     "url": "https://github.cds.internal.unity3d.com/unity/com.unity.cloud.ktx.git",
     "type": "git",
-    "revision": "ec335fbf9dea6ddb379313b2c3409ed95f0db822"
+    "revision": "c241d376d1624bb1e4e3283b69fbbae491b24233"
   }
 }

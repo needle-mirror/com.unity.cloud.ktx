@@ -6,3 +6,4 @@
 * [How To](./how-to.md)
 * [Creating Textures](./creating-textures.md)
 * [Known Limitations](./known-limitations.md)
+* [Apple Privacy Manifest](apple-privacy-manifest.md)
