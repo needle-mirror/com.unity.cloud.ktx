@@ -1,6 +1,6 @@
 {
   "name": "com.unity.cloud.ktx",
-  "version": "3.4.1",
+  "version": "3.4.2",
   "displayName": "KTX for Unity",
   "description": "Load KTX 2.0 and Basis Universal textures at runtime and in the Editor.",
   "unity": "2020.3",
@@ -20,15 +20,15 @@
     "glTF"
   ],
   "_upm": {
-    "changelog": "### Added\n- Added Apple Privacy Manifest documentation."
+    "changelog": "### Fixed\n- Error on macOS where the binary is not loaded since Apple cannot check it for malicious software. The binary has been code-signed and notarized."
   },
   "upmCi": {
-    "footprint": "cfbde38db9f11974ee0184e848c32bbec8cd6e98"
+    "footprint": "d3cd74b00416f3dde15d3db2d9d5151ccf47f5d1"
   },
   "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.cloud.ktx@3.4/manual/index.html",
   "repository": {
     "url": "https://github.cds.internal.unity3d.com/unity/com.unity.cloud.ktx.git",
     "type": "git",
-    "revision": "c241d376d1624bb1e4e3283b69fbbae491b24233"
+    "revision": "b79e1da5bae0db1e5fcf91d4fd6feffff9c1e799"
   }
 }
