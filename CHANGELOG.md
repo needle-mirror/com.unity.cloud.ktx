@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.3] - 2024-09-05
+
+### Changed
+- Updated macOS binary to version 1.4.1
+
+### Fixed
+- Code signing error on upload to Mac Apple Store (fixes [#78](https://github.com/atteneder/DracoUnity/issues/78))
+
 ## [3.4.2] - 2024-08-07
 
 ### Fixed
