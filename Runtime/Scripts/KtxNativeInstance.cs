@@ -243,12 +243,22 @@ namespace KtxUnity
                 height = Math.Max(1u, height >> (int)mipLevel);
             }
 
+            var flags =
+#if UNITY_2022_1_OR_NEWER
+                TextureCreationFlags.DontUploadUponCreate | TextureCreationFlags.DontInitializePixels;
+#else
+                TextureCreationFlags.None;
+#endif
+            if (mipmap)
+            {
+                flags |= TextureCreationFlags.MipChain;
+            }
             Profiler.BeginSample("CreateTexture2D");
             var texture = new Texture2D(
                 (int)width,
                 (int)height,
                 gf,
-                mipmap ? TextureCreationFlags.MipChain : TextureCreationFlags.None
+                flags
             );
             Profiler.EndSample();
 

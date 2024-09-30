@@ -155,7 +155,12 @@ namespace KtxUnity
             Profiler.BeginSample("LoadBytesRoutineGpuUpload");
 
             m_MetaData.GetSize(out var width, out var height, layer, mipLevel);
-            var flags = TextureCreationFlags.None;
+            var flags =
+#if UNITY_2022_1_OR_NEWER
+                TextureCreationFlags.DontUploadUponCreate | TextureCreationFlags.DontInitializePixels;
+#else
+                TextureCreationFlags.None;
+#endif
             if (mipChain && m_MetaData.images[layer].levels.Length - mipLevel > 1)
             {
                 flags |= TextureCreationFlags.MipChain;
