@@ -1,6 +1,7 @@
 // SPDX-FileCopyrightText: 2024 Unity Technologies and the Draco for Unity authors
 // SPDX-License-Identifier: Apache-2.0
 
+using System;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
@@ -64,6 +65,28 @@ namespace KtxUnity.Editor.Tests
             Assert.AreEqual(0, u.Patch);
             Assert.AreEqual('f', u.Type);
             Assert.AreEqual(2, u.Sequence);
+        }
+
+        [Test]
+        public void ConstructorFullSuffix()
+        {
+            // Some versions have additional suffixes.
+            var u = new UnityVersion("6.6.6b3c1");
+            Assert.AreEqual(6, u.Major);
+            Assert.AreEqual(6, u.Minor);
+            Assert.AreEqual(6, u.Patch);
+            Assert.AreEqual('b', u.Type);
+            Assert.AreEqual(3, u.Sequence);
+        }
+
+        [Test]
+        public void ConstructorGarbage()
+        {
+            var exception = Assert.Throws<InvalidOperationException>(() =>
+            {
+                var u = new UnityVersion("garbage");
+            });
+            Assert.AreEqual("Failed to parse semantic version garbage", exception.Message);
         }
 
         [Test]

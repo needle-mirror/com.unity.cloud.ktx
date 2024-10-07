@@ -1,6 +1,6 @@
 {
   "name": "com.unity.cloud.ktx",
-  "version": "3.4.4",
+  "version": "3.4.5",
   "displayName": "KTX for Unity",
   "description": "Load KTX 2.0 and Basis Universal textures at runtime and in the Editor.",
   "unity": "2020.3",
@@ -20,15 +20,15 @@
     "glTF"
   ],
   "_upm": {
-    "changelog": "### Fixed\n- Textures are not initialized and uploaded twice anymore giving improved performance from Unity 2022.1 or newer.\n- macOS binary now properly signed, notarized and stapled."
+    "changelog": "### Added\n- Root namespace to `Ktx` assembly definition.\n\n### Fixed\n- WebGL build with Chinese Unity versions.\n- Prevent crash by not using certain texture creation flags with OpenGL in Unity versions 2022.3.12 and older."
   },
   "upmCi": {
-    "footprint": "7d0e386ff4590ce0743b6c24401e04daafe3748c"
+    "footprint": "11109636fc579946e3b4fa2cd31ff61bfe43db9f"
   },
   "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.cloud.ktx@3.4/manual/index.html",
   "repository": {
     "url": "https://github.cds.internal.unity3d.com/unity/com.unity.cloud.ktx.git",
     "type": "git",
-    "revision": "79ddf4834899717b8489c4676af74c5f205a2552"
+    "revision": "e175584564af6f51643bf18b54b3fd637b32ebe2"
   }
 }

@@ -16,6 +16,7 @@ using UnityEngine.Profiling;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.Jobs;
+using UnityEngine.Rendering;
 using IntPtr = System.IntPtr;
 
 namespace KtxUnity
@@ -36,6 +37,20 @@ namespace KtxUnity
         /// Allocator.TempJob grants is sometimes not enough, so I chose Persistent.
         /// </summary>
         public const Allocator defaultAllocator = Allocator.Persistent;
+
+        internal static TextureCreationFlags defaultTextureCreationFlags =>
+#if FAST_TEXTURE_CREATION_FLAGS
+            TextureCreationFlags.DontUploadUponCreate | TextureCreationFlags.DontInitializePixels;
+#elif FAST_TEXTURE_CREATION_FLAGS_NON_OPENGL
+            // Up until 2022.3.12 those flags cause a crash with OpenGL (Jira UUM-53142)
+            SystemInfo.graphicsDeviceType == GraphicsDeviceType.OpenGLCore
+            || SystemInfo.graphicsDeviceType == GraphicsDeviceType.OpenGLES2
+            || SystemInfo.graphicsDeviceType == GraphicsDeviceType.OpenGLES3
+            ? TextureCreationFlags.None
+            : TextureCreationFlags.DontUploadUponCreate | TextureCreationFlags.DontInitializePixels;
+#else
+            TextureCreationFlags.None;
+#endif
 
         IntPtr m_NativeReference;
 
@@ -243,12 +258,7 @@ namespace KtxUnity
                 height = Math.Max(1u, height >> (int)mipLevel);
             }
 
-            var flags =
-#if UNITY_2022_1_OR_NEWER
-                TextureCreationFlags.DontUploadUponCreate | TextureCreationFlags.DontInitializePixels;
-#else
-                TextureCreationFlags.None;
-#endif
+            var flags = defaultTextureCreationFlags;
             if (mipmap)
             {
                 flags |= TextureCreationFlags.MipChain;

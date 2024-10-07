@@ -1,5 +1,6 @@
 {
     "name": "Ktx",
+    "rootNamespace": "KtxUnity",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -8,5 +9,17 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": []
+    "versionDefines": [
+        {
+            "name": "Unity",
+            "expression": "2022.3.13",
+            "define": "FAST_TEXTURE_CREATION_FLAGS"
+        },
+        {
+            "name": "Unity",
+            "expression": "2022.1",
+            "define": "FAST_TEXTURE_CREATION_FLAGS_NON_OPENGL"
+        }
+    ],
+    "noEngineReferences": false
 }

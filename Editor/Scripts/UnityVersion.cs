@@ -17,7 +17,7 @@ namespace KtxUnity.Editor
         public readonly int Sequence;
 
 
-        const string k_Pattern = @"^(?<major>\d{1,10})(\.(?<minor>\d{1,10}))?(\.(?<patch>\d{1,10}))?(?<type>[abf])?(?<sequence>\d{1,10})?$";
+        const string k_Pattern = @"^(?<major>\d{1,10})(\.(?<minor>\d{1,10}))?(\.(?<patch>\d{1,10}))?(?<type>[abf])?(?<sequence>\d{1,10})?";
 
         static readonly Regex k_Regex = new Regex(k_Pattern, RegexOptions.CultureInvariant, TimeSpan.FromMinutes(1));
 
