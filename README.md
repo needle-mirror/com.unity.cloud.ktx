@@ -1,6 +1,6 @@
 # KTX for Unity
 
-[![codecov](https://codecov.unity3d.com/ghe/unity/com.unity.cloud.ktx/graph/badge.svg?token=6OICFLLO21)](https://codecov.unity3d.com/ghe/unity/com.unity.cloud.ktx)
+[![codecov](https://codecov.unity3d.com/ghe/unity/com.unity.cloud.ktx/graph/badge.svg?token=Y72BMT3KXC)](https://codecov.unity3d.com/ghe/unity/com.unity.cloud.ktx)
 
 <p align="center">
 <img src="./Documentation~/Images/ktx-logo.png" />

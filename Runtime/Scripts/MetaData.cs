@@ -31,7 +31,7 @@ namespace KtxUnity
 
         public override string ToString()
         {
-            return $"BU images:{images.Length} A:{hasAlpha}";
+            return $"Texture images:{images.Length} A:{hasAlpha}";
         }
     }
 

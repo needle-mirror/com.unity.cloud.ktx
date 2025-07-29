@@ -2,7 +2,7 @@
 
 This package contains third-party software components governed by the license(s) indicated below:
 
-### KTX Software
+## KTX Software
 
 Component Name: KTX Software
 
@@ -24,14 +24,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-
-### Basis Universal Transcoder
+## Basis Universal Transcoder
 
 Component Name: Basis Universal Transcoder
 
 License Type: Apache 2.0
 
-Copyright © 2022 Khronos Group
+Copyright © 2019-2025 Binomial LLC
 
 [Basis Universal transcoder](https://github.com/BinomialLLC/basis_universal)
 

@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2023 Unity Technologies and the KTX for Unity authors
 // SPDX-License-Identifier: Apache-2.0
 
-
+using System;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
@@ -16,17 +16,25 @@ namespace KtxUnity
     public class BasisUniversalTexture : TextureBase
     {
 
-        NativeSlice<byte> m_InputData;
+        NativeArray<byte>.ReadOnly m_InputData;
         NativeArray<byte> m_TextureData;
         MetaData m_MetaData;
         TextureOrientation m_Orientation;
 
         /// <inheritdoc />
-        public override ErrorCode Open(NativeSlice<byte> data)
+        public override ErrorCode Open(NativeArray<byte>.ReadOnly data)
         {
             KtxNativeInstance.CertifySupportedPlatform();
             m_InputData = data;
             return ErrorCode.Success;
+        }
+
+        /// <inheritdoc />
+        [Obsolete("Use the overload that accepts a NativeArray<byte>.ReadOnly data")]
+        public override ErrorCode Open(NativeSlice<byte> data)
+        {
+            using var array = data.AsNativeArray();
+            return Open(array.AsReadOnly());
         }
 
         /// <inheritdoc />
@@ -70,7 +78,7 @@ namespace KtxUnity
         public override void Dispose() { }
 
         internal async Task<TextureResult> LoadFromBytesInternal(
-            NativeSlice<byte> data,
+            NativeArray<byte>.ReadOnly data,
             bool linear = false,
             uint layer = 0,
             uint faceSlice = 0,

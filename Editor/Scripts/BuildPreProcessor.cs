@@ -23,9 +23,6 @@ namespace KtxUnity.Editor
         internal static readonly Dictionary<GUID, int> webAssemblyLibraries = new Dictionary<GUID, int>()
         {
             // Database of WebAssembly library files within folder `Runtime/Plugins/WebGL`
-            [new GUID("143eb4e0158994750a74465b1c68a52b")] = 2020, // 2020/libktx_read.bc
-            [new GUID("d5d7736ff60a64272adca7a7c3635175")] = 2020, // 2020/libktx_unity.bc
-            [new GUID("c2217daa2f255429fac9f7ad37ededb5")] = 2020, // 2020/libobj_basisu_cbind.bc
             [new GUID("df97b0e93a9ce4dfea9b19bb84c197aa")] = 2021, // 2021/libktx_read.a
             [new GUID("ad44f70cce67349758a1f872354c25be")] = 2021, // 2021/libktx_unity.a
             [new GUID("c3d638c4775624a4aa8a0124da084d8c")] = 2021, // 2021/libobj_basisu_cbind.a
@@ -121,7 +118,7 @@ namespace KtxUnity.Editor
             }
         }
 
-        static bool IsWebAssemblyCompatible(string assetPath)
+        internal static bool IsWebAssemblyCompatible(string assetPath)
         {
             var unityVersion = new UnityVersion(Application.unityVersion);
 
@@ -140,8 +137,6 @@ namespace KtxUnity.Editor
             {
                 switch (majorVersion)
                 {
-                    case 2020:
-                        return unityVersion < wasm2021;
                     case 2021:
                         return unityVersion >= wasm2021 && unityVersion < wasm2022;
                     case 2022:

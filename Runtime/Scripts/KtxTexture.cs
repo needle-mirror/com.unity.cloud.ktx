@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2023 Unity Technologies and the KTX for Unity authors
 // SPDX-License-Identifier: Apache-2.0
 
-
+using System;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
@@ -104,10 +104,18 @@ namespace KtxUnity
         // ReSharper restore MemberCanBePrivate.Global
 
         /// <inheritdoc />
-        public override ErrorCode Open(NativeSlice<byte> data)
+        public override ErrorCode Open(NativeArray<byte>.ReadOnly data)
         {
             KtxNativeInstance.CertifySupportedPlatform();
             return OpenInternal(data);
+        }
+
+        /// <inheritdoc />
+        [Obsolete("Use the overload that accepts a NativeArray<byte>.ReadOnly data")]
+        public override ErrorCode Open(NativeSlice<byte> data)
+        {
+            using var array = data.AsNativeArray();
+            return Open(array.AsReadOnly());
         }
 
         /// <inheritdoc />
@@ -152,7 +160,7 @@ namespace KtxUnity
         }
 
         internal async Task<TextureResult> LoadFromBytesInternal(
-            NativeSlice<byte> data,
+            NativeArray<byte>.ReadOnly data,
             bool linear = false,
             uint layer = 0,
             uint faceSlice = 0,
@@ -171,7 +179,7 @@ namespace KtxUnity
         }
 
 
-        ErrorCode OpenInternal(NativeSlice<byte> data)
+        ErrorCode OpenInternal(NativeArray<byte>.ReadOnly data)
         {
             m_Ktx = new KtxNativeInstance();
             return m_Ktx.Load(data);

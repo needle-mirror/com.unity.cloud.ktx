@@ -58,6 +58,12 @@ namespace KtxUnity
             this.format = format;
             this.transcodeFormat = transcodeFormat;
         }
+#if DEBUG
+        public override string ToString()
+        {
+            return $"{nameof(TranscodeFormatTuple)} {nameof(GraphicsFormat)}.{format} {nameof(TranscodeFormat)}.{transcodeFormat}";
+        }
+#endif
     }
 
     struct FormatInfo
@@ -106,20 +112,12 @@ namespace KtxUnity
 
                 s_AllFormats.Add(new FormatInfo(
                     TextureFeatures.NonPowerOfTwo | TextureFeatures.NonSquare,
-#if UNITY_2018_3_OR_NEWER
                     GraphicsFormat.RGBA_DXT1_SRGB,
-#else
-                    GraphicsFormat.RGB_DXT1_SRGB,
-#endif
                     TranscodeFormat.BC1_RGB));
 
                 s_AllFormats.Add(new FormatInfo(
                     TextureFeatures.NonPowerOfTwo | TextureFeatures.NonSquare | TextureFeatures.Linear,
-#if UNITY_2018_3_OR_NEWER
                     GraphicsFormat.RGBA_DXT1_UNorm,
-#else
-                    GraphicsFormat.RGB_DXT1_UNorm,
-#endif
                     TranscodeFormat.BC1_RGB));
 
                 s_AllFormats.Add(new FormatInfo(
@@ -405,9 +403,7 @@ namespace KtxUnity
                     tf = TranscodeFormat.RGBA4444;
                     break;
                 case GraphicsFormat.RGBA_ASTC4X4_SRGB:
-#if UNITY_2020_2_OR_NEWER
                 case GraphicsFormat.RGBA_ASTC4X4_UFloat:
-#endif
                 case GraphicsFormat.RGBA_ASTC4X4_UNorm:
                     tf = TranscodeFormat.ASTC_4x4_RGBA;
                     break;

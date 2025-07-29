@@ -42,24 +42,24 @@ namespace KtxUnity
         /// Evaluates if the texture's horizontal orientation conforms to Unity's default.
         /// If it's not aligned (=true; =flipped), the texture has to be applied mirrored horizontally.
         /// </summary>
-        /// <param name="to"></param>
+        /// <param name="textureOrientation">Texture orientation.</param>
         /// <returns>True if the horizontal orientation is flipped, false otherwise</returns>
-        public static bool IsXFlipped(this TextureOrientation to)
+        public static bool IsXFlipped(this TextureOrientation textureOrientation)
         {
             // Unity default == X_RIGHT
-            return (to & TextureOrientation.XLeft) != 0;
+            return (textureOrientation & TextureOrientation.XLeft) != 0;
         }
 
         /// <summary>
         /// Evaluates if the texture's vertical orientation conforms to Unity's default.
         /// If it's not aligned (=true; =flipped), the texture has to be applied mirrored vertically.
         /// </summary>
-        /// <param name="to"></param>
+        /// <param name="textureOrientation">Texture orientation.</param>
         /// <returns>True if the vertical orientation is flipped, false otherwise</returns>
-        public static bool IsYFlipped(this TextureOrientation to)
+        public static bool IsYFlipped(this TextureOrientation textureOrientation)
         {
             // Unity default == Y_UP
-            return (to & TextureOrientation.YUp) == 0;
+            return (textureOrientation & TextureOrientation.YUp) == 0;
         }
     }
 }

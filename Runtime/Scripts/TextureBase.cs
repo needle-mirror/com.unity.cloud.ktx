@@ -6,6 +6,7 @@
 #define LOCAL_LOADING
 #endif
 
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -146,13 +147,13 @@ namespace KtxUnity
         /// <see cref="ErrorCode"/>, the resulting texture and its orientation.
         /// </returns>
         public async Task<TextureResult> LoadFromBytes(
-            NativeSlice<byte> data,
+            NativeArray<byte>.ReadOnly data,
             bool linear = false,
             uint layer = 0,
             uint faceSlice = 0,
             uint mipLevel = 0,
             bool mipChain = true
-            )
+        )
         {
             KtxNativeInstance.CertifySupportedPlatform();
             var result = new TextureResult
@@ -163,6 +164,35 @@ namespace KtxUnity
             result = await LoadTexture2D(linear, layer, faceSlice, mipLevel, mipChain);
             Dispose();
             return result;
+        }
+
+        /// <summary>
+        /// Loads a KTX or Basis Universal texture from a buffer
+        /// </summary>
+        /// <param name="data">Native buffer that holds the ktx/basis file</param>
+        /// <param name="linear">Depicts if texture is sampled in linear or
+        /// sRGB gamma color space.</param>
+        /// <param name="layer">Texture array layer to import</param>
+        /// <param name="faceSlice">Cubemap face or 3D/volume texture slice to import.</param>
+        /// <param name="mipLevel">Lowest mipmap level to import (where 0 is
+        /// the highest resolution). Lower mipmap levels (of higher resolution)
+        /// are being discarded. Useful to limit texture resolution.</param>
+        /// <param name="mipChain">If true, a mipmap chain (if present) is imported.</param>
+        /// <returns>A <see cref="TextureResult"/> that contains an
+        /// <see cref="ErrorCode"/>, the resulting texture and its orientation.
+        /// </returns>
+        [Obsolete("Use the overload that accepts a NativeArray<byte>.ReadOnly data")]
+        public async Task<TextureResult> LoadFromBytes(
+            NativeSlice<byte> data,
+            bool linear = false,
+            uint layer = 0,
+            uint faceSlice = 0,
+            uint mipLevel = 0,
+            bool mipChain = true
+        )
+        {
+            using var array = data.AsNativeArray();
+            return await LoadFromBytes(array.AsReadOnly(), linear, layer, faceSlice, mipLevel, mipChain);
         }
 
         /// <summary>
@@ -181,7 +211,7 @@ namespace KtxUnity
         /// </returns>
         // ReSharper disable once MemberCanBePrivate.Global
         public async Task<TextureResult> LoadFromBytes(
-            NativeSlice<byte> data,
+            NativeArray<byte>.ReadOnly data,
             GraphicsFormat targetFormat,
             uint layer = 0,
             uint faceSlice = 0,
@@ -201,6 +231,35 @@ namespace KtxUnity
         }
 
         /// <summary>
+        /// Loads a KTX or Basis Universal texture from a buffer
+        /// </summary>
+        /// <param name="data">Native buffer that holds the ktx/basis file</param>
+        /// <param name="targetFormat">Desired texture format</param>
+        /// <param name="layer">Texture array layer to import</param>
+        /// <param name="faceSlice">Cubemap face or 3D/volume texture slice to import.</param>
+        /// <param name="mipLevel">Lowest mipmap level to import (where 0 is
+        /// the highest resolution). Lower mipmap levels (of higher resolution)
+        /// are being discarded. Useful to limit texture resolution.</param>
+        /// <param name="mipChain">If true, a mipmap chain (if present) is imported.</param>
+        /// <returns>A <see cref="TextureResult"/> that contains an
+        /// <see cref="ErrorCode"/>, the resulting texture and its orientation.
+        /// </returns>
+        // ReSharper disable once MemberCanBePrivate.Global
+        [Obsolete("Use the overload that accepts a NativeArray<byte>.ReadOnly data")]
+        public async Task<TextureResult> LoadFromBytes(
+            NativeSlice<byte> data,
+            GraphicsFormat targetFormat,
+            uint layer = 0,
+            uint faceSlice = 0,
+            uint mipLevel = 0,
+            bool mipChain = true
+        )
+        {
+            using var array = data.AsNativeArray();
+            return await LoadFromBytes(array.AsReadOnly(), targetFormat, layer, faceSlice, mipLevel, mipChain);
+        }
+
+        /// <summary>
         /// Converts a relative sub path within StreamingAssets
         /// and creates an absolute URI from it. Useful for loading
         /// via UnityWebRequests.
@@ -209,7 +268,6 @@ namespace KtxUnity
         /// <returns>Platform independent URI that can be loaded via UnityWebRequest</returns>
         public static string GetStreamingAssetsUrl(string subPath)
         {
-
             var path = Path.Combine(Application.streamingAssetsPath, subPath);
 
 #if LOCAL_LOADING
@@ -231,7 +289,21 @@ namespace KtxUnity
         /// <seealso cref="Dispose"/>
         /// <param name="data">Input texture data</param>
         /// <returns><see cref="ErrorCode.Success"/> if loading was successful
-        /// or an error specific code otherwise.</returns>
+        /// or an error-specific code otherwise.</returns>
+        public abstract ErrorCode Open(NativeArray<byte>.ReadOnly data);
+
+        /// <summary>
+        /// Loads a texture from memory.
+        /// Part of the low-level API that provides finer control over the
+        /// loading process.
+        /// </summary>
+        /// <seealso cref="LoadTexture2D(bool,uint,uint,uint,bool)"/>
+        /// <seealso cref="LoadTexture2D(GraphicsFormat,uint,uint,uint,bool)"/>
+        /// <seealso cref="Dispose"/>
+        /// <param name="data">Input texture data</param>
+        /// <returns><see cref="ErrorCode.Success"/> if loading was successful
+        /// or an error-specific code otherwise.</returns>
+        [Obsolete("Use the overload that accepts a NativeArray<byte>.ReadOnly data")]
         public abstract ErrorCode Open(NativeSlice<byte> data);
 
         /// <summary>
@@ -242,7 +314,7 @@ namespace KtxUnity
         /// Part of the low-level API that provides finer control over the
         /// loading process.
         /// </summary>
-        /// <seealso cref="Open"/>
+        /// <seealso cref="Open(NativeArray&lt;byte&gt;.ReadOnly)"/>
         /// <seealso cref="Dispose"/>
         /// <param name="linear">Depicts if texture is sampled in linear or
         /// sRGB gamma color space.</param>
@@ -271,7 +343,7 @@ namespace KtxUnity
         /// Part of the low-level API that provides finer control over the
         /// loading process.
         /// </summary>
-        /// <seealso cref="Open"/>
+        /// <seealso cref="Open(NativeArray&lt;byte&gt;.ReadOnly)"/>
         /// <seealso cref="Dispose"/>
         /// <param name="targetFormat">Desired texture format</param>
         /// <param name="layer">Texture array layer to import</param>
@@ -296,7 +368,7 @@ namespace KtxUnity
         /// Part of the low-level API that provides finer control over the
         /// loading process.
         /// </summary>
-        /// <seealso cref="Open"/>
+        /// <seealso cref="Open(NativeArray&lt;byte&gt;.ReadOnly)"/>
         /// <seealso cref="LoadTexture2D(bool,uint,uint,uint,bool)"/>
         /// <seealso cref="LoadTexture2D(GraphicsFormat,uint,uint,uint,bool)"/>
         /// <seealso cref="Dispose"/>
@@ -320,7 +392,7 @@ namespace KtxUnity
                 await Task.Yield();
             }
 
-            if (!string.IsNullOrEmpty(webRequest.error))
+            if (webRequest.result != UnityWebRequest.Result.Success)
             {
 #if DEBUG
                 Debug.LogErrorFormat("Error loading {0}: {1}",url,webRequest.error);
@@ -328,19 +400,14 @@ namespace KtxUnity
                 return new TextureResult(ErrorCode.OpenUriFailed);
             }
 
-            var buffer = webRequest.downloadHandler.data;
-
-            using (var bufferWrapped = new ManagedNativeArray(buffer))
-            {
-                return await LoadFromBytes(
-                    bufferWrapped.nativeArray,
-                    linear,
-                    layer,
-                    faceSlice,
-                    mipLevel,
-                    mipChain
-                    );
-            }
+            return await LoadFromBytes(
+                webRequest.downloadHandler.nativeData,
+                linear,
+                layer,
+                faceSlice,
+                mipLevel,
+                mipChain
+            );
         }
 
         async Task<TextureResult> LoadFile(
@@ -359,7 +426,7 @@ namespace KtxUnity
                 await Task.Yield();
             }
 
-            if (!string.IsNullOrEmpty(webRequest.error))
+            if (webRequest.result != UnityWebRequest.Result.Success)
             {
 #if DEBUG
                 Debug.LogErrorFormat("Error loading {0}: {1}",url,webRequest.error);
@@ -367,19 +434,14 @@ namespace KtxUnity
                 return new TextureResult(ErrorCode.OpenUriFailed);
             }
 
-            var buffer = webRequest.downloadHandler.data;
-
-            using (var bufferWrapped = new ManagedNativeArray(buffer))
-            {
-                return await LoadFromBytes(
-                    bufferWrapped.nativeArray,
-                    targetFormat,
-                    layer,
-                    faceSlice,
-                    mipLevel,
-                    mipChain
-                );
-            }
+            return await LoadFromBytes(
+                webRequest.downloadHandler.nativeData,
+                targetFormat,
+                layer,
+                faceSlice,
+                mipLevel,
+                mipChain
+            );
         }
 
         internal static TranscodeFormatTuple? GetFormat(IMetaData meta, ILevelInfo li, bool linear = false)

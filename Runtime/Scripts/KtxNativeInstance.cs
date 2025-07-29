@@ -204,7 +204,7 @@ namespace KtxUnity
         }
         //*/
 
-        internal unsafe ErrorCode Load(NativeSlice<byte> data)
+        internal unsafe ErrorCode Load(NativeArray<byte>.ReadOnly data)
         {
             var src = data.GetUnsafeReadOnlyPtr();
             m_NativeReference = ktx_load_ktx(src, (uint)data.Length, out var status);
