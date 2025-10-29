@@ -127,13 +127,20 @@ namespace KtxUnity
             bool mipChain = true
         )
         {
-            Assert.IsNotNull(m_Ktx, "KtxTexture in invalid state. Open has to be called first.");
             return await LoadTexture2DInternal(
                 linear,
                 layer,
                 faceSlice,
                 mipLevel,
-                mipChain);
+                mipChain,
+#if UNITY_VISIONOS
+                // PolySpatial visionOS needs to be able to access raw texture data in order to
+                // do the material/texture conversion.
+                readable: true
+#else
+                readable: false
+#endif
+                );
         }
 
         /// <inheritdoc />
@@ -145,7 +152,6 @@ namespace KtxUnity
             bool mipChain = true
         )
         {
-            Assert.IsNotNull(m_Ktx, "KtxTexture in invalid state. Open has to be called first.");
             if (!TranscodeFormatHelper.IsFormatSupported(targetFormat))
             {
                 return new TextureResult(ErrorCode.FormatUnsupportedBySystem);
@@ -156,7 +162,15 @@ namespace KtxUnity
                 faceSlice,
                 mipLevel,
                 mipChain,
-                targetFormat);
+                targetFormat,
+#if UNITY_VISIONOS
+                // PolySpatial visionOS needs to be able to access raw texture data in order to
+                // do the material/texture conversion.
+                readable: true
+#else
+                readable: false
+#endif
+                );
         }
 
         internal async Task<TextureResult> LoadFromBytesInternal(
@@ -173,7 +187,20 @@ namespace KtxUnity
                 errorCode = OpenInternal(data)
             };
             if (result.errorCode != ErrorCode.Success) return result;
-            result = await LoadTexture2DInternal(linear, layer, faceSlice, mipLevel, mipChain);
+            result = await LoadTexture2DInternal(
+                linear,
+                layer,
+                faceSlice,
+                mipLevel,
+                mipChain,
+#if UNITY_VISIONOS
+                // PolySpatial visionOS needs to be able to access raw texture data in order to
+                // do the material/texture conversion.
+                readable: true
+#else
+                readable: false
+#endif
+                );
             Dispose();
             return result;
         }
@@ -185,15 +212,21 @@ namespace KtxUnity
             return m_Ktx.Load(data);
         }
 
-        async Task<TextureResult> LoadTexture2DInternal(
+        /// <inheritdoc />
+        protected override async Task<TextureResult> LoadTexture2DInternal(
             bool linear = false,
             uint layer = 0,
             uint faceSlice = 0,
             uint mipLevel = 0,
             bool mipChain = true,
-            GraphicsFormat? targetFormat = null
+            GraphicsFormat? targetFormat = null,
+            bool readable = false
             )
         {
+            if (m_Ktx == null)
+            {
+                return new TextureResult(ErrorCode.InvalidState);
+            }
             var result = new TextureResult();
             var graphicsFormat = GraphicsFormat.None;
             if (m_Ktx.valid)
@@ -303,7 +336,8 @@ namespace KtxUnity
                     layer,
                     mipLevel,
                     faceSlice,
-                    mipChain
+                    mipChain,
+                    readable
                     );
                 result.texture = texture;
             }

@@ -1,6 +1,6 @@
 {
   "name": "com.unity.cloud.ktx",
-  "version": "3.5.0",
+  "version": "3.6.0",
   "displayName": "KTX for Unity",
   "description": "Load KTX 2.0 and Basis Universal textures at runtime and in the Editor.",
   "unity": "2021.3",
@@ -19,17 +19,20 @@
     "UASTC",
     "glTF"
   ],
+  "relatedPackages": {
+    "com.unity.cloud.ktx.tests": "0.0.0"
+  },
   "unityRelease": "46f1",
   "_upm": {
-    "changelog": "### Added\n- Loading KTX/Basis from [NativeArray&lt;byte&gt;.ReadOnly](xref:Unity.Collections.NativeArray`1.ReadOnly). This makes it easier to load KTX data from existing, native memory directly without the need to create a copy in managed memory (e.g. by using [DownloadHandler.GetNativeData](xref:UnityEngine.Networking.DownloadHandler.GetNativeData) or [ConvertExistingDataToNativeArray](xref:Unity.Collections.LowLevel.Unsafe.NativeArrayUnsafeUtility.ConvertExistingDataToNativeArray(System.Void*,System.Int32,Unity.Collections.Allocator))).\n  - [TextureBase.LoadFromBytes](xref:KtxUnity.TextureBase.LoadFromBytes(Unity.Collections.NativeArray{System.Byte}.ReadOnly,System.Boolean,System.UInt32,System.UInt32,System.UInt32,System.Boolean))\n  - [TextureBase.Open](xref:KtxUnity.TextureBase.Open(Unity.Collections.NativeArray{System.Byte}.ReadOnly))\n- Test project `KtxText`\n- (CI) Automatically generated CI jobs (via Wrench/RecipeEngine; required for PackageWorks).\n- (CI) Improved code format check reporting.\n- Unit tests for KTX/Basis editor importers.\n- Unit tests for [BasisUniversalTexture](xref:KtxUnity.BasisUniversalTexture).\n- (Test) Package coherence tests.\n\n### Changed\n- (Performance) KTX is not copied to managed memory anymore when using [LoadFromUrl](xref:KtxUnity.TextureBase.LoadFromUrl*) or [LoadFromStreamingAssets](xref:KtxUnity.TextureBase.LoadFromStreamingAssets*).\n- Changed source code repository structure to [monorepo](https://en.wikipedia.org/wiki/Monorepo).\n- Separated unit tests into dedicated tests package.\n- Bumped minimum required Unity version to 2021.3.46f1\n- Updated binaries to version [1.5.0](https://github.com/Unity-Technologies/ktx-plugin/releases/tag/release-github%2F1.5.0) (contains KTX-Software 4.4.0).\n- Updated Linux binaries (only) to version [1.5.1](https://github.com/Unity-Technologies/ktx-plugin/releases/tag/release-github%2F1.5.1) (to maintain compatibility with Ubuntu 20.04).\n\n### Deprecated\n- Loading KTX/Basis from [NativeSlice<byte>](xref:Unity.Collections.NativeSlice`1) (please use [NativeArray&lt;byte&gt;.ReadOnly](xref:Unity.Collections.NativeArray`1.ReadOnly) overloads; see above).\n\n### Fixed\n- Proper exception is thrown when loading from a [NativeSlice<byte>](xref:Unity.Collections.NativeSlice`1) with a stride other than 1.\n- Copyright owner of *Basis Universal Transcoder* set to *Binomial LLC* in `Third Party Notices.md`.\n- Test instability due to unreleased memory.\n- Android binaries are now 16kB page size compatible (fixes [#98](https://github.com/atteneder/KtxUnity/issues/98))\n\n### Deprecated\n- `KtxTestCaseAttribute`, which was `public` by accident."
+    "changelog": "### Added\n- [LoadTexture2D](xref:KtxUnity.TextureBase.LoadTexture2D(System.Boolean,System.Boolean)) overload that lets you create readable textures.\n- Performance tests for [LoadFromStreamingAssets](xref:KtxUnity.TextureBase.LoadFromStreamingAssets*)\n- [EditorConfig](https://editorconfig.org/) for keeping a consistent code-style.\n\n### Changed\n- Updated Linux binary to version 1.5.2\n- (CI) Code format check is performed by dotnet format now.\n- (Documentation) Updated supported platforms\n\n### Fixed\n- Linux binary is now compatible with Ubuntu 18.04.\n- (CI) Code coverage is measured correctly during/after pull requrests.\n- (CI) Apply code format checks on tests package as well.\n- (CI) When fetching Unity versions, properly fall back to alpha if beta was not found.\n- (Documentation) Required Unity version in [Get started](./Documentation~/get-started.md).\n\n### Removed\n- (CI) SonarQube scan job."
   },
   "upmCi": {
-    "footprint": "0895ecb20579f5a1dd0ea99bffd1187f97f25656"
+    "footprint": "1d99e13233a4bfa4b8a672901d93e57cf5982a52"
   },
-  "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.cloud.ktx@3.5/manual/index.html",
+  "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.cloud.ktx@3.6/manual/index.html",
   "repository": {
     "url": "https://github.cds.internal.unity3d.com/unity/com.unity.cloud.ktx.git",
     "type": "git",
-    "revision": "b56941dcddd39047243602dcc453e3ee1f52ae64"
+    "revision": "b98f990e32a5025f66419d76f0022c00222f4ad6"
   }
 }

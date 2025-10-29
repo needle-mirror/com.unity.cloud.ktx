@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.6.0] - 2025-10-29
+
+### Added
+- [LoadTexture2D](xref:KtxUnity.TextureBase.LoadTexture2D(System.Boolean,System.Boolean)) overload that lets you create readable textures.
+- Performance tests for [LoadFromStreamingAssets](xref:KtxUnity.TextureBase.LoadFromStreamingAssets*)
+- [EditorConfig](https://editorconfig.org/) for keeping a consistent code-style.
+
+### Changed
+- Updated Linux binary to version 1.5.2
+- (CI) Code format check is performed by dotnet format now.
+- (Documentation) Updated supported platforms
+
+### Fixed
+- Linux binary is now compatible with Ubuntu 18.04.
+- (CI) Code coverage is measured correctly during/after pull requrests.
+- (CI) Apply code format checks on tests package as well.
+- (CI) When fetching Unity versions, properly fall back to alpha if beta was not found.
+- (Documentation) Required Unity version in [Get started](./Documentation~/get-started.md).
+
+### Removed
+- (CI) SonarQube scan job.
+
 ## [3.5.0] - 2025-07-29
 
 ### Added

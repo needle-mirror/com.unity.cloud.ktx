@@ -61,6 +61,10 @@ namespace KtxUnity
         /// Face slice exceeds base depth.
         /// </summary>
         InvalidSlice,
+        /// <summary>
+        /// Texture is in invalid state. Consult low-level API documentation.
+        /// </summary>
+        InvalidState,
     }
 
 
@@ -85,6 +89,7 @@ namespace KtxUnity
             { ErrorCode.InvalidLevel, "Invalid MipMapLevel" },
             { ErrorCode.InvalidFace, "Invalid Face" },
             { ErrorCode.InvalidSlice, "Invalid Slice" },
+            { ErrorCode.InvalidState, "Texture is in invalid state. Consult low-level API documentation." },
         };
 
         /// <summary>

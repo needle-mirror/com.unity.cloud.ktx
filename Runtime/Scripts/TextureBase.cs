@@ -317,6 +317,34 @@ namespace KtxUnity
         /// <seealso cref="Open(NativeArray&lt;byte&gt;.ReadOnly)"/>
         /// <seealso cref="Dispose"/>
         /// <param name="linear">Depicts if texture is sampled in linear or
+        ///     sRGB gamma color space.</param>
+        /// <param name="readable">When the value is true, a copy of the texture is kept in CPU memory
+        ///     and Texture.isReadable|isReadable is true. The default value is false.</param>
+        /// <returns>A <see cref="TextureResult"/> that contains an
+        /// <see cref="ErrorCode"/>, the resulting texture and its orientation.
+        /// </returns>
+        public async Task<TextureResult> LoadTexture2D(
+            bool linear,
+            bool readable
+        )
+        {
+            return await LoadTexture2DInternal(
+                linear: linear,
+                readable: readable
+            );
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Texture2D"/> from the previously opened
+        /// texture.
+        /// Transcodes or decodes the texture into a GPU compatible format
+        /// (if required) and uploads it to GPU memory.
+        /// Part of the low-level API that provides finer control over the
+        /// loading process.
+        /// </summary>
+        /// <seealso cref="Open(NativeArray&lt;byte&gt;.ReadOnly)"/>
+        /// <seealso cref="Dispose"/>
+        /// <param name="linear">Depicts if texture is sampled in linear or
         /// sRGB gamma color space.</param>
         /// <param name="layer">Texture array layer to import</param>
         /// <param name="faceSlice">Cubemap face or 3D/volume texture slice to import.</param>
@@ -443,6 +471,36 @@ namespace KtxUnity
                 mipChain
             );
         }
+
+        /// <summary>
+        /// Underlying implementation of all LoadTexture2D overloads (e.g. <see cref="LoadTexture2D(bool,bool)"/>).
+        /// </summary>
+        /// <seealso cref="Open(NativeArray&lt;byte&gt;.ReadOnly)"/>
+        /// <seealso cref="LoadTexture2D(bool,bool)"/>
+        /// <seealso cref="Dispose"/>
+        /// <param name="linear">Depicts if texture is sampled in linear or
+        /// sRGB gamma color space.</param>
+        /// <param name="layer">Texture array layer to import</param>
+        /// <param name="faceSlice">Cubemap face or 3D/volume texture slice to import.</param>
+        /// <param name="mipLevel">Lowest mipmap level to import (where 0 is
+        /// the highest resolution). Lower mipmap levels (of higher resolution)
+        /// are being discarded. Useful to limit texture resolution.</param>
+        /// <param name="mipChain">If true, a mipmap chain (if present) is imported.</param>
+        /// <param name="targetFormat">Desired texture format</param>
+        /// <param name="readable">When the value is true, a copy of the texture is kept in CPU memory
+        ///     and Texture.isReadable|isReadable is true. The default value is false.</param>
+        /// <returns>A <see cref="TextureResult"/> that contains an
+        /// <see cref="ErrorCode"/>, the resulting texture and its orientation.
+        /// </returns>
+        protected abstract Task<TextureResult> LoadTexture2DInternal(
+            bool linear = false,
+            uint layer = 0,
+            uint faceSlice = 0,
+            uint mipLevel = 0,
+            bool mipChain = true,
+            GraphicsFormat? targetFormat = null,
+            bool readable = false
+        );
 
         internal static TranscodeFormatTuple? GetFormat(IMetaData meta, ILevelInfo li, bool linear = false)
         {

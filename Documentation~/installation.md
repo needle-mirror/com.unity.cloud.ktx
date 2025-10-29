@@ -1,32 +1,38 @@
 # Installation
 
-Before you install the package, make sure you meet the [system requirement](#system-requirement) and [prerequisites](#prerequisites).
+> [!NOTE]
+> Before you install the package, make sure you meet the [system requirement](#system-requirement) and [prerequisites](#prerequisites).
 
 ## Install the *KTX for Unity* package using the Unity Package Manager
 
+> [!TIP]
+> Click the following link to fast-track the installation and skip to step 5: [com.unity.cloud.ktx](com.unity3d.kharma:upmpackage/com.unity.cloud.ktx)
+
 To install *KTX for Unity* package, follow these steps:
 
-In your Unity project, go to Windows > Package Manager.
-On the status bar, select the Add (+) button.
-From the Add menu, select Add + package by name. Name and Version fields appear.
-In the Name field, enter `com.unity.cloud.ktx`.
-Select Add.
-The Editor installs the latest available version of the package and any dependent packages.
+1. In your Unity project, go to Windows > Package Manager.
+2. On the status bar, select the Add (+) button.
+3. From the Add menu, select Add + package by name. Name and Version fields appear.
+4. In the Name field, enter `com.unity.cloud.ktx`.
+5. Click *Add*.
+6. The Editor installs the latest available version of the package and any dependent packages.
 
 ## System Requirement
 
 *KTX for Unity* supports the following platforms:
 
-- WebGL
-- iOS (arm64 and armv7a)
+- Web
+- iOS
 - tvOS
 - visionOS
 - Android
-- Windows (x64 and ARM64)
-- Universal Windows Platform (x64, x86, ARM, ARM64)
-- MacOS Universal (Apple Silicon and Intel)
-- Linux (64 bit)
-- Lumin / Magic Leap
+  - Chrome OS (via Android)
+  - Magic Leap 2 (via Android)
+- Windows
+- Universal Windows Platform
+- macOS
+- Linux (x86_64)
+- Lumin / Magic Leap 1
 - Embedded Linux
 
 ## Prerequisites

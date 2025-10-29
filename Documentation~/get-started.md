@@ -12,7 +12,7 @@ To use the *KTX for Unity* package, do the following:
 
 To use the *KTX for Unity* package, you require the following:
 
-* A Unity Editor version of 2020.1 or later. In the Unity Hub, go to **Installs** > **Official releases** to find the latest Long Term Support version.
+* A Unity Editor version of 2021.3.46f1 or later. In the Unity Hub, go to **Installs** > **Official releases** to find the latest Long Term Support version.
 
 ## Install the package
 

@@ -240,7 +240,8 @@ namespace KtxUnity
             uint layer = 0,
             uint mipLevel = 0,
             uint faceSlice = 0,
-            bool mipChain = true
+            bool mipChain = true,
+            bool readable = false
             )
         {
 
@@ -327,15 +328,7 @@ namespace KtxUnity
             }
             texture.Apply(
                 false,
-                // TODO: Expose `makeNoLongerReadable` parameter in API.
-#if UNITY_VISIONOS
-                // PolySpatial visionOS needs to able to access raw texture data in order to do the material/texture
-                // conversion.
-                false
-#else
-                // Free up texture memory by default.
-                true
-#endif
+                !readable
                 );
             Profiler.EndSample();
             return texture;
