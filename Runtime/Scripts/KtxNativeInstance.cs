@@ -235,7 +235,8 @@ namespace KtxUnity
             return jobHandle;
         }
 
-        public unsafe Texture2D LoadTextureData(
+        public unsafe ErrorCode LoadTextureData(
+            out Texture2D texture,
             GraphicsFormat gf,
             uint layer = 0,
             uint mipLevel = 0,
@@ -244,7 +245,6 @@ namespace KtxUnity
             bool readable = false
             )
         {
-
             Profiler.BeginSample("LoadTextureData");
             var levelCount = numLevels;
             var levelsNeeded = mipChain ? levelCount - mipLevel : 1;
@@ -264,14 +264,6 @@ namespace KtxUnity
             {
                 flags |= TextureCreationFlags.MipChain;
             }
-            Profiler.BeginSample("CreateTexture2D");
-            var texture = new Texture2D(
-                (int)width,
-                (int)height,
-                gf,
-                flags
-            );
-            Profiler.EndSample();
 
             ktx_get_data(m_NativeReference, out var data, out var length);
 
@@ -296,8 +288,10 @@ namespace KtxUnity
                 );
                 if (result != KtxErrorCode.Success)
                 {
-                    return texture;
+                    texture = null;
+                    return result.ToErrorCode();
                 }
+                texture = CreateTexture2D();
                 Profiler.BeginSample("LoadRawTextureData");
                 texture.LoadRawTextureData(reorderedData);
                 Profiler.EndSample();
@@ -318,11 +312,13 @@ namespace KtxUnity
                         );
                     if (result != KtxErrorCode.Success)
                     {
-                        return null;
+                        texture = null;
+                        return result.ToErrorCode();
                     }
                     data += offset;
                     length = ktx_get_image_size(m_NativeReference, mipLevel);
                 }
+                texture = CreateTexture2D();
                 texture.LoadRawTextureData((IntPtr)data, (int)length);
                 Profiler.EndSample();
             }
@@ -331,7 +327,20 @@ namespace KtxUnity
                 !readable
                 );
             Profiler.EndSample();
-            return texture;
+            return ErrorCode.Success;
+
+            Texture2D CreateTexture2D()
+            {
+                Profiler.BeginSample("CreateTexture2D");
+                var texture = new Texture2D(
+                    (int)width,
+                    (int)height,
+                    gf,
+                    flags
+                );
+                Profiler.EndSample();
+                return texture;
+            }
         }
 
         /// <summary>

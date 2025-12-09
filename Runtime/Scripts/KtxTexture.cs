@@ -227,6 +227,26 @@ namespace KtxUnity
             {
                 return new TextureResult(ErrorCode.InvalidState);
             }
+
+            if (layer >= numLayers)
+                return new TextureResult(ErrorCode.InvalidLayer);
+            if (mipLevel >= m_Ktx.numLevels)
+                return new TextureResult(ErrorCode.InvalidLevel);
+            if (isCubemap)
+            {
+                if (faceSlice >= numFaces)
+                {
+                    return new TextureResult(ErrorCode.InvalidFace);
+                }
+            }
+            else
+            {
+                if (faceSlice >= baseDepth)
+                {
+                    return new TextureResult(ErrorCode.InvalidSlice);
+                }
+            }
+
             var result = new TextureResult();
             var graphicsFormat = GraphicsFormat.None;
             if (m_Ktx.valid)
@@ -259,13 +279,7 @@ namespace KtxUnity
                                 formats.Value.transcodeFormat
                                 );
 #endif
-                            result.errorCode = await TranscodeInternal(
-                                m_Ktx,
-                                formats.Value.transcodeFormat,
-                                layer,
-                                faceSlice,
-                                mipLevel
-                                );
+                            result.errorCode = await TranscodeInternal(m_Ktx, formats.Value.transcodeFormat);
                             result.orientation = m_Ktx.orientation;
                         }
                         else
@@ -331,7 +345,8 @@ namespace KtxUnity
 
             try
             {
-                var texture = m_Ktx.LoadTextureData(
+                result.errorCode = m_Ktx.LoadTextureData(
+                    out result.texture,
                     graphicsFormat,
                     layer,
                     mipLevel,
@@ -339,7 +354,6 @@ namespace KtxUnity
                     mipChain,
                     readable
                     );
-                result.texture = texture;
             }
             catch (UnityException)
             {
@@ -368,35 +382,11 @@ namespace KtxUnity
             return GraphicsFormat.None;
         }
 
-        async Task<ErrorCode> TranscodeInternal(
+        static async Task<ErrorCode> TranscodeInternal(
             KtxNativeInstance ktx,
-            TranscodeFormat format,
-            uint layer,
-            uint faceSlice,
-            uint mipLevel
+            TranscodeFormat format
             )
         {
-
-            if (layer >= (isArray ? numLayers : 1))
-            {
-                return ErrorCode.InvalidLayer;
-            }
-
-            if (isCubemap && faceSlice >= numFaces)
-            {
-                return ErrorCode.InvalidFace;
-            }
-
-            if (numDimensions > 2 && faceSlice >= baseDepth)
-            {
-                return ErrorCode.InvalidSlice;
-            }
-
-            if (mipLevel >= numLevels)
-            {
-                return ErrorCode.InvalidLevel;
-            }
-
             var result = ErrorCode.Success;
 
             Profiler.BeginSample("KtxTranscode");
@@ -413,10 +403,7 @@ namespace KtxUnity
             }
             jobHandle.Complete();
 
-            if (job.result[0] != KtxErrorCode.Success)
-            {
-                result = ErrorCode.TranscodeFailed;
-            }
+            result = job.result[0].ToErrorCode();
             job.result.Dispose();
 
             return result;

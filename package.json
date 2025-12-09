@@ -1,6 +1,6 @@
 {
   "name": "com.unity.cloud.ktx",
-  "version": "3.6.1",
+  "version": "3.6.2",
   "displayName": "KTX for Unity",
   "description": "Load KTX 2.0 and Basis Universal textures at runtime and in the Editor.",
   "unity": "2022.3",
@@ -24,15 +24,15 @@
   },
   "unityRelease": "67f2",
   "_upm": {
-    "changelog": "### Added\n- (Test) PVRTC transcoding test.\n\n### Changed\n- Increased minimum required Unity 2022 xLTS (2022.3.67f2).\n\n### Fixed\n- Removed compiler warnings about PVRTC texture formats being deprecated in Unity 6.1 and newer.\n\n### Removed\n- Magic Leap 1 (Lumin) support.\n- WebAssembly 2021 binary."
+    "changelog": "### Changed\n- (Test) Bundled necessary test textures, including its sources.\n\n### Fixed\n- Error codes are returned consistently when trying to load an invalid face/slice/layer/level.\n- Improved forwarding `libktx` internal error codes to give more informative feedback as to what went wrong.\n- (CI) Tests succeed without internet connection."
   },
   "upmCi": {
-    "footprint": "480491c27aeb0d14efe52ee0a8f06009a7d72ccf"
+    "footprint": "11166ec3225a95d00bff8b672d827873e00113f7"
   },
   "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.cloud.ktx@3.6/manual/index.html",
   "repository": {
     "url": "https://github.cds.internal.unity3d.com/unity/com.unity.cloud.ktx.git",
     "type": "git",
-    "revision": "951513c7956c469fbc851a2ce1e94d6fbdbb0c08"
+    "revision": "50e585f4d2d9f673d6c2418619e61e57326ee6d1"
   }
 }
