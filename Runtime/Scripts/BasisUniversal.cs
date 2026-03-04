@@ -1,10 +1,6 @@
 // SPDX-FileCopyrightText: 2023 Unity Technologies and the KTX for Unity authors
 // SPDX-License-Identifier: Apache-2.0
 
-
-// TODO: Re-using transcoders does not work consistently. Fix and enable!
-// #define POOL_TRANSCODERS
-
 using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
@@ -16,51 +12,35 @@ namespace KtxUnity
 {
     static class BasisUniversal
     {
-        static bool s_Initialized;
-        static int s_TranscoderCountAvailable = 8;
-
-#if POOL_TRANSCODERS
-        static Stack<TranscoderInstance> transcoderPool;
-#endif
-
-        static void InitInternal()
-        {
-            s_Initialized = true;
-            TranscodeFormatHelper.Init();
-            ktx_basisu_basis_init();
-            s_TranscoderCountAvailable = SystemInfo.processorCount;
-        }
+#pragma warning disable UDR0001
+        // s_NativeLibraryInitialized is intentionally not reset in `ResetStaticsOnLoad`
+        // as the native library should only be initialized once.
+        static bool s_NativeLibraryInitialized;
+#pragma warning restore UDR0001
+        static int s_TranscoderCountAvailable = SystemInfo.processorCount;
 
         public static BasisUniversalTranscoderInstance GetTranscoderInstance()
         {
-            if (!s_Initialized)
+            TranscodeFormatHelper.Init();
+            if (!s_NativeLibraryInitialized)
             {
-                InitInternal();
+                s_NativeLibraryInitialized = true;
+                ktx_basisu_basis_init();
             }
-#if POOL_TRANSCODERS
-            if(transcoderPool!=null) {
-                return transcoderPool.Pop();
-            }
-#endif
+
+            // TODO: Pool transcoder instances instead of just counting available ones.
+
             if (s_TranscoderCountAvailable > 0)
             {
                 s_TranscoderCountAvailable--;
                 return new BasisUniversalTranscoderInstance(ktx_basisu_create_basis());
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
 
         public static void ReturnTranscoderInstance(BasisUniversalTranscoderInstance transcoder)
         {
-#if POOL_TRANSCODERS
-            if(transcoderPool==null) {
-                transcoderPool = new Stack<TranscoderInstance>();
-            }
-            transcoderPool.Push(transcoder);
-#endif
             s_TranscoderCountAvailable++;
         }
 
@@ -106,5 +86,14 @@ namespace KtxUnity
 
         [DllImport(KtxNativeInstance.ktxLibrary)]
         static extern IntPtr ktx_basisu_create_basis();
+
+#if UNITY_EDITOR
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        static void ResetStaticsOnLoad()
+        {
+            // Reset static state
+            s_TranscoderCountAvailable = SystemInfo.processorCount;
+        }
+#endif
     }
 }

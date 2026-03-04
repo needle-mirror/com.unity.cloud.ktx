@@ -1,6 +1,6 @@
 {
   "name": "com.unity.cloud.ktx",
-  "version": "3.6.2",
+  "version": "3.6.3",
   "displayName": "KTX for Unity",
   "description": "Load KTX 2.0 and Basis Universal textures at runtime and in the Editor.",
   "unity": "2022.3",
@@ -24,15 +24,15 @@
   },
   "unityRelease": "67f2",
   "_upm": {
-    "changelog": "### Changed\n- (Test) Bundled necessary test textures, including its sources.\n\n### Fixed\n- Error codes are returned consistently when trying to load an invalid face/slice/layer/level.\n- Improved forwarding `libktx` internal error codes to give more informative feedback as to what went wrong.\n- (CI) Tests succeed without internet connection."
+    "changelog": "### Changed\n- Ensured compatibility with [Fast Enter Play Mode](https://unity.com/blog/engine-platform/enter-play-mode-faster-in-unity-2019-3)."
   },
   "upmCi": {
-    "footprint": "11166ec3225a95d00bff8b672d827873e00113f7"
+    "footprint": "aad4dfcd1d171719a10e2b83f3a7e9ebdd5fe0f9"
   },
   "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.cloud.ktx@3.6/manual/index.html",
   "repository": {
     "url": "https://github.cds.internal.unity3d.com/unity/com.unity.cloud.ktx.git",
     "type": "git",
-    "revision": "50e585f4d2d9f673d6c2418619e61e57326ee6d1"
+    "revision": "1d818daaee4a4e096d3da9264f783b2980392aea"
   }
 }

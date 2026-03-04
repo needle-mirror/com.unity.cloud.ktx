@@ -463,6 +463,17 @@ namespace KtxUnity
             );
         }
 
+#if UNITY_EDITOR
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        static void ResetStaticsOnLoad()
+        {
+            // Reset caches
+            s_Initialized = false;
+            s_FormatCache = null;
+            s_AllFormats = null;
+        }
+#endif
+
 #if KTX_VERBOSE
         // ReSharper disable Unity.PerformanceAnalysis
         static void CheckTextureSupport () {
