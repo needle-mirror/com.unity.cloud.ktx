@@ -3,9 +3,9 @@
 
 using System;
 using System.IO;
+using UnityEditor.AssetImporters;
 using UnityEngine;
 using UnityEngine.Profiling;
-using UnityEditor.AssetImporters;
 
 namespace KtxUnity.Editor
 {

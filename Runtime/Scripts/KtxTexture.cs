@@ -3,11 +3,11 @@
 
 using System;
 using System.Threading.Tasks;
+using Unity.Collections;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Experimental.Rendering;
 using UnityEngine.Profiling;
-using Unity.Collections;
-using UnityEngine.Assertions;
 
 namespace KtxUnity
 {
@@ -280,7 +280,6 @@ namespace KtxUnity
                                 );
 #endif
                             result.errorCode = await TranscodeInternal(m_Ktx, formats.Value.transcodeFormat);
-                            result.orientation = m_Ktx.orientation;
                         }
                         else
                         {
@@ -294,12 +293,12 @@ namespace KtxUnity
                         {
                             result.errorCode = ErrorCode.UnsupportedFormat;
                         }
-                        else
-                        if (!TranscodeFormatHelper.IsFormatSupported(graphicsFormat, linear))
+                        else if (!TranscodeFormatHelper.IsFormatSupported(graphicsFormat, linear))
                         {
                             result.errorCode = ErrorCode.FormatUnsupportedBySystem;
                         }
                     }
+                    result.orientation = m_Ktx.orientation;
                 }
                 else
                 {

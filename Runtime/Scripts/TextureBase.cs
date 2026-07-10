@@ -9,10 +9,10 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
 using UnityEngine.Networking;
-using Unity.Collections;
 
 namespace KtxUnity
 {
@@ -423,7 +423,7 @@ namespace KtxUnity
             if (webRequest.result != UnityWebRequest.Result.Success)
             {
 #if DEBUG
-                Debug.LogErrorFormat("Error loading {0}: {1}",url,webRequest.error);
+                Debug.LogErrorFormat("Error loading {0}: {1}", url, webRequest.error);
 #endif
                 return new TextureResult(ErrorCode.OpenUriFailed);
             }
@@ -457,7 +457,7 @@ namespace KtxUnity
             if (webRequest.result != UnityWebRequest.Result.Success)
             {
 #if DEBUG
-                Debug.LogErrorFormat("Error loading {0}: {1}",url,webRequest.error);
+                Debug.LogErrorFormat("Error loading {0}: {1}", url, webRequest.error);
 #endif
                 return new TextureResult(ErrorCode.OpenUriFailed);
             }

@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 using System;
+using UnityEditor.AssetImporters;
 using UnityEngine;
 using UnityEngine.Profiling;
-using UnityEditor.AssetImporters;
 
 namespace KtxUnity.Editor
 {

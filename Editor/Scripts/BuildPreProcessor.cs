@@ -1,18 +1,14 @@
 // SPDX-FileCopyrightText: 2024 Unity Technologies and the KTX for Unity authors
 // SPDX-License-Identifier: Apache-2.0
 
-#if UNITY_2023_3_OR_NEWER || UNITY_2022_3
-#define VISION_OS_SUPPORTED
-#endif
-
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using UnityEngine;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
+using UnityEngine;
 
 namespace KtxUnity.Editor
 {
@@ -23,9 +19,6 @@ namespace KtxUnity.Editor
         internal static readonly Dictionary<GUID, int> webAssemblyLibraries = new Dictionary<GUID, int>()
         {
             // Database of WebAssembly library files within folder `Runtime/Plugins/WebGL`
-            [new GUID("1903498fc70cf40f698bc7cb3f3b616f")] = 2022, // 2022/libktx_read.a
-            [new GUID("39f63d50e71334f7886493189c281dd9")] = 2022, // 2022/libktx_unity.a
-            [new GUID("56a5eafddecc942128d8c15652750b74")] = 2022, // 2022/libobj_basisu_cbind.a
             [new GUID("064f9fdd6ee9346269b838d6b768b3cc")] = 2023, // 2023/libktx_read.a
             [new GUID("b8faaa868093c46ddab6e9538d1625e6")] = 2023, // 2023/libktx_unity.a
             [new GUID("22f5fcc807c2544dda814ef9d61f68ad")] = 2023, // 2023/libobj_basisu_cbind.a
@@ -51,9 +44,7 @@ namespace KtxUnity.Editor
                     {
                         case BuildTarget.iOS:
                         case BuildTarget.tvOS:
-#if VISION_OS_SUPPORTED
                         case BuildTarget.VisionOS:
-#endif
                             plugin.SetIncludeInBuildDelegate(IncludeAppleLibraryInBuild);
                             break;
                         case BuildTarget.WebGL:
@@ -75,10 +66,8 @@ namespace KtxUnity.Editor
                     return PlayerSettings.iOS.sdkVersion == iOSSdkVersion.SimulatorSDK;
                 case BuildTarget.tvOS:
                     return PlayerSettings.tvOS.sdkVersion == tvOSSdkVersion.Simulator;
-#if VISION_OS_SUPPORTED
                 case BuildTarget.VisionOS:
                     return PlayerSettings.VisionOS.sdkVersion == VisionOSSdkVersion.Simulator;
-#endif
             }
 
             return false;
@@ -126,15 +115,12 @@ namespace KtxUnity.Editor
 
         public static bool IsWebAssemblyCompatible(GUID pluginGuid, UnityVersion unityVersion)
         {
-            var wasm2022 = new UnityVersion("2022.2");
             var wasm2023 = new UnityVersion("2023.2.0a17");
 
             if (webAssemblyLibraries.TryGetValue(pluginGuid, out var majorVersion))
             {
                 switch (majorVersion)
                 {
-                    case 2022:
-                        return unityVersion >= wasm2022 && unityVersion < wasm2023;
                     case 2023:
                         return unityVersion >= wasm2023;
                 }

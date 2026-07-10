@@ -38,7 +38,7 @@ To install *KTX for Unity* package, follow these steps:
 
 To use the package, you require the following:
 
-- A Unity version of 2022.3.67f2 or newer. In the Unity Hub, go to **Installs** > **Official releases** to find the latest Long Term Support version.
+- A Unity version of 6000.0 or newer. In the Unity Hub, go to **Installs** > **Official releases** to find the latest Long Term Support version.
 
 ## Trademarks
 

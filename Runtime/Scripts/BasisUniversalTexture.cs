@@ -3,11 +3,11 @@
 
 using System;
 using System.Threading.Tasks;
+using Unity.Collections;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Experimental.Rendering;
 using UnityEngine.Profiling;
-using Unity.Collections;
-using UnityEngine.Assertions;
 
 namespace KtxUnity
 {

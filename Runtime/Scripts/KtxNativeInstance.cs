@@ -10,12 +10,12 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using UnityEngine;
-using UnityEngine.Experimental.Rendering;
-using UnityEngine.Profiling;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.Jobs;
+using UnityEngine;
+using UnityEngine.Experimental.Rendering;
+using UnityEngine.Profiling;
 using UnityEngine.Rendering;
 using IntPtr = System.IntPtr;
 
@@ -39,18 +39,7 @@ namespace KtxUnity
         public const Allocator defaultAllocator = Allocator.Persistent;
 
         internal static TextureCreationFlags defaultTextureCreationFlags =>
-#if FAST_TEXTURE_CREATION_FLAGS
             TextureCreationFlags.DontUploadUponCreate | TextureCreationFlags.DontInitializePixels;
-#elif FAST_TEXTURE_CREATION_FLAGS_NON_OPENGL
-            // Up until 2022.3.12 those flags cause a crash with OpenGL (Jira UUM-53142)
-            SystemInfo.graphicsDeviceType == GraphicsDeviceType.OpenGLCore
-            || SystemInfo.graphicsDeviceType == GraphicsDeviceType.OpenGLES2
-            || SystemInfo.graphicsDeviceType == GraphicsDeviceType.OpenGLES3
-            ? TextureCreationFlags.None
-            : TextureCreationFlags.DontUploadUponCreate | TextureCreationFlags.DontInitializePixels;
-#else
-            TextureCreationFlags.None;
-#endif
 
         IntPtr m_NativeReference;
 
@@ -211,7 +200,7 @@ namespace KtxUnity
             if (status != KtxErrorCode.Success)
             {
 #if DEBUG
-                Debug.LogErrorFormat("KTX error code {0}",status);
+                Debug.LogErrorFormat("KTX error code {0}", status);
 #endif
                 return ErrorCode.LoadingFailed;
             }
@@ -364,8 +353,18 @@ namespace KtxUnity
         {
             switch (vkFormat)
             {
+                case VkFormat.Astc4X4SrgbBlock: return GraphicsFormat.RGBA_ASTC4X4_SRGB;
+                case VkFormat.Astc4X4UNormBlock: return GraphicsFormat.RGBA_ASTC4X4_UNorm;
+                case VkFormat.Astc5X5SrgbBlock: return GraphicsFormat.RGBA_ASTC5X5_SRGB;
+                case VkFormat.Astc5X5UNormBlock: return GraphicsFormat.RGBA_ASTC5X5_UNorm;
+                case VkFormat.Astc6X6SrgbBlock: return GraphicsFormat.RGBA_ASTC6X6_SRGB;
+                case VkFormat.Astc6X6UNormBlock: return GraphicsFormat.RGBA_ASTC6X6_UNorm;
                 case VkFormat.Astc8X8SrgbBlock: return GraphicsFormat.RGBA_ASTC8X8_SRGB;
                 case VkFormat.Astc8X8UNormBlock: return GraphicsFormat.RGBA_ASTC8X8_UNorm;
+                case VkFormat.Astc10X10SrgbBlock: return GraphicsFormat.RGBA_ASTC10X10_SRGB;
+                case VkFormat.Astc10X10UNormBlock: return GraphicsFormat.RGBA_ASTC10X10_UNorm;
+                case VkFormat.Astc12X12SrgbBlock: return GraphicsFormat.RGBA_ASTC12X12_SRGB;
+                case VkFormat.Astc12X12UNormBlock: return GraphicsFormat.RGBA_ASTC12X12_UNorm;
                 case VkFormat.B10G11R11UFloatPack32: return GraphicsFormat.B10G11R11_UFloatPack32;
                 case VkFormat.BC2SrgbBlock: return GraphicsFormat.RGBA_DXT3_SRGB;
                 case VkFormat.BC2UNormBlock: return GraphicsFormat.RGBA_DXT3_UNorm;
@@ -409,8 +408,6 @@ namespace KtxUnity
                 case VkFormat.A8B8G8R8UNormPack32:
                 case VkFormat.A8B8G8R8UScaledPack32:
                 case VkFormat.Astc10X10SFloatBlockExt:
-                case VkFormat.Astc10X10SrgbBlock:
-                case VkFormat.Astc10X10UNormBlock:
                 case VkFormat.Astc10X5SFloatBlockExt:
                 case VkFormat.Astc10X5SrgbBlock:
                 case VkFormat.Astc10X5UNormBlock:
@@ -424,8 +421,6 @@ namespace KtxUnity
                 case VkFormat.Astc12X10SrgbBlock:
                 case VkFormat.Astc12X10UNormBlock:
                 case VkFormat.Astc12X12SFloatBlockExt:
-                case VkFormat.Astc12X12SrgbBlock:
-                case VkFormat.Astc12X12UNormBlock:
                 case VkFormat.Astc3X3X3SFloatBlockExt:
                 case VkFormat.Astc3X3X3SrgbBlockExt:
                 case VkFormat.Astc3X3X3UNormBlockExt:
@@ -433,8 +428,6 @@ namespace KtxUnity
                 case VkFormat.Astc4X3X3SrgbBlockExt:
                 case VkFormat.Astc4X3X3UNormBlockExt:
                 case VkFormat.Astc4X4SFloatBlockExt:
-                case VkFormat.Astc4X4SrgbBlock:
-                case VkFormat.Astc4X4UNormBlock:
                 case VkFormat.Astc4X4X3SFloatBlockExt:
                 case VkFormat.Astc4X4X3SrgbBlockExt:
                 case VkFormat.Astc4X4X3UNormBlockExt:
@@ -448,8 +441,6 @@ namespace KtxUnity
                 case VkFormat.Astc5X4X4SrgbBlockExt:
                 case VkFormat.Astc5X4X4UNormBlockExt:
                 case VkFormat.Astc5X5SFloatBlockExt:
-                case VkFormat.Astc5X5SrgbBlock:
-                case VkFormat.Astc5X5UNormBlock:
                 case VkFormat.Astc5X5X4SFloatBlockExt:
                 case VkFormat.Astc5X5X4SrgbBlockExt:
                 case VkFormat.Astc5X5X4UNormBlockExt:
@@ -463,8 +454,6 @@ namespace KtxUnity
                 case VkFormat.Astc6X5X5SrgbBlockExt:
                 case VkFormat.Astc6X5X5UNormBlockExt:
                 case VkFormat.Astc6X6SFloatBlockExt:
-                case VkFormat.Astc6X6SrgbBlock:
-                case VkFormat.Astc6X6UNormBlock:
                 case VkFormat.Astc6X6X5SFloatBlockExt:
                 case VkFormat.Astc6X6X5SrgbBlockExt:
                 case VkFormat.Astc6X6X5UNormBlockExt:

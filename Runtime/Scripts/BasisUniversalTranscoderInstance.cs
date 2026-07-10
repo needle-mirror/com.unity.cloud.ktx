@@ -3,11 +3,11 @@
 
 
 
-using System.Runtime.InteropServices;
 using System;
-using UnityEngine;
+using System.Runtime.InteropServices;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
+using UnityEngine;
 using UnityEngine.Profiling;
 
 
@@ -66,7 +66,8 @@ namespace KtxUnity
             var src = data.GetUnsafeReadOnlyPtr();
             var success = ktx_basisu_open_basis(nativeReference, src, data.Length);
 #if DEBUG
-            if(!success) {
+            if (!success)
+            {
                 Debug.LogError("Couldn't validate BasisU header!");
             }
 #endif

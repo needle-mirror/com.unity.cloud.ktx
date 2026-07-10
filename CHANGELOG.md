@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.7.0] - 2026-07-10
+
+### Added
+- Support for ASTC block sizes 4x4, 5x5, 6x6, 10x10, and 12x12 (UNorm and sRGB) in KTX 2.0 textures, complementing the existing 8x8 support.
+- (Test) ASTC test textures and runtime test case covering all supported block sizes.
+
+### Changed
+- Increased minimum required Unity version to 6.0 LTS.
+
+### Fixed
+- [TextureResult.orientation](xref:KtxUnity.TextureResult.orientation) is now reported correctly for non-supercompressed KTX 2.0 textures (previously the KTXorientation metadata was only honored when transcoding was required).
+
+### Removed
+- WebAssembly 2022 binary.
+
 ## [3.6.3] - 2026-03-04
 
 ### Changed

@@ -334,7 +334,7 @@ namespace KtxUnity
                     }
                 }
 #if DEBUG
-                Debug.LogErrorFormat("Could not find transcode texture format! (alpha:{0} Po2:{1} sqr:{2})",hasAlpha,isPowerOfTwo,isSquare);
+                Debug.LogErrorFormat("Could not find transcode texture format! (alpha:{0} Po2:{1} sqr:{2})", hasAlpha, isPowerOfTwo, isSquare);
 #endif
                 return null;
             }
@@ -455,11 +455,7 @@ namespace KtxUnity
         {
             return SystemInfo.IsFormatSupported(
                 graphicsFormat,
-#if UNITY_2023_2_OR_NEWER
                 linear ? GraphicsFormatUsage.Linear : GraphicsFormatUsage.Sample
-#else
-                linear ? FormatUsage.Linear : FormatUsage.Sample
-#endif
             );
         }
 
@@ -505,7 +501,6 @@ namespace KtxUnity
                 sb.Append(format).Append(' ');
                 var usages = new[]
                 {
-#if UNITY_2023_2_OR_NEWER
                     GraphicsFormatUsage.Sample,
                     GraphicsFormatUsage.Blend,
                     GraphicsFormatUsage.GetPixels,
@@ -520,22 +515,6 @@ namespace KtxUnity
                     GraphicsFormatUsage.SetPixels32,
                     GraphicsFormatUsage.Sparse,
                     GraphicsFormatUsage.StencilSampling,
-#else
-                    FormatUsage.Sample,
-                    FormatUsage.Blend,
-                    FormatUsage.GetPixels,
-                    FormatUsage.Linear,
-                    FormatUsage.LoadStore,
-                    FormatUsage.MSAA2x,
-                    FormatUsage.MSAA4x,
-                    FormatUsage.MSAA8x,
-                    FormatUsage.ReadPixels,
-                    FormatUsage.Render,
-                    FormatUsage.SetPixels,
-                    FormatUsage.SetPixels32,
-                    FormatUsage.Sparse,
-                    FormatUsage.StencilSampling,
-#endif
                 };
                 foreach (var usage in usages)
                 {

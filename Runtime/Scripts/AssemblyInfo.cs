@@ -5,3 +5,4 @@ using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("Ktx.Editor")]
 [assembly: InternalsVisibleTo("Ktx.Tests")]
+[assembly: InternalsVisibleTo("Ktx.Editor.Tests")]

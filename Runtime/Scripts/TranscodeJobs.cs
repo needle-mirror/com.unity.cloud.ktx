@@ -3,9 +3,9 @@
 
 
 using System.Runtime.InteropServices;
-using Unity.Jobs;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
+using Unity.Jobs;
 using IntPtr = System.IntPtr;
 
 namespace KtxUnity

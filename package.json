@@ -1,9 +1,9 @@
 {
   "name": "com.unity.cloud.ktx",
-  "version": "3.6.3",
+  "version": "3.7.0",
   "displayName": "KTX for Unity",
   "description": "Load KTX 2.0 and Basis Universal textures at runtime and in the Editor.",
-  "unity": "2022.3",
+  "unity": "6000.0",
   "dependencies": {
     "com.unity.modules.unitywebrequest": "1.0.0"
   },
@@ -22,17 +22,16 @@
   "relatedPackages": {
     "com.unity.cloud.ktx.tests": "0.0.0"
   },
-  "unityRelease": "67f2",
   "_upm": {
-    "changelog": "### Changed\n- Ensured compatibility with [Fast Enter Play Mode](https://unity.com/blog/engine-platform/enter-play-mode-faster-in-unity-2019-3)."
+    "changelog": "### Added\n- Support for ASTC block sizes 4x4, 5x5, 6x6, 10x10, and 12x12 (UNorm and sRGB) in KTX 2.0 textures, complementing the existing 8x8 support.\n- (Test) ASTC test textures and runtime test case covering all supported block sizes.\n\n### Changed\n- Increased minimum required Unity version to 6.0 LTS.\n\n### Fixed\n- [TextureResult.orientation](xref:KtxUnity.TextureResult.orientation) is now reported correctly for non-supercompressed KTX 2.0 textures (previously the KTXorientation metadata was only honored when transcoding was required).\n\n### Removed\n- WebAssembly 2022 binary."
   },
   "upmCi": {
-    "footprint": "aad4dfcd1d171719a10e2b83f3a7e9ebdd5fe0f9"
+    "footprint": "4c8fbe02901dae101472396baa7118368e706895"
   },
-  "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.cloud.ktx@3.6/manual/index.html",
+  "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.cloud.ktx@3.7/manual/index.html",
   "repository": {
     "url": "https://github.cds.internal.unity3d.com/unity/com.unity.cloud.ktx.git",
     "type": "git",
-    "revision": "1d818daaee4a4e096d3da9264f783b2980392aea"
+    "revision": "c5cb59419b1ddfb85c16b9c0a4bbec17315dcd44"
   }
 }
