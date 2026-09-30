@@ -5,19 +5,30 @@ using System;
 using System.Runtime.InteropServices;
 using Unity.Collections;
 using Unity.Jobs;
+#if UNITY_6000_5_OR_NEWER
+using Unity.Scripting.LifecycleManagement;
+#endif
 using UnityEngine;
 using UnityEngine.Profiling;
 
 namespace KtxUnity
 {
-    static class BasisUniversal
+    static partial class BasisUniversal
     {
+#if UNITY_6000_5_OR_NEWER
+        [NoAutoStaticsCleanup]
+        static bool s_NativeLibraryInitialized;
+
+        [AutoStaticsCleanup]
+        static int s_TranscoderCountAvailable = SystemInfo.processorCount;
+#else
 #pragma warning disable UDR0001
         // s_NativeLibraryInitialized is intentionally not reset in `ResetStaticsOnLoad`
         // as the native library should only be initialized once.
         static bool s_NativeLibraryInitialized;
 #pragma warning restore UDR0001
         static int s_TranscoderCountAvailable = SystemInfo.processorCount;
+#endif
 
         public static BasisUniversalTranscoderInstance GetTranscoderInstance()
         {
@@ -87,7 +98,7 @@ namespace KtxUnity
         [DllImport(KtxNativeInstance.ktxLibrary)]
         static extern IntPtr ktx_basisu_create_basis();
 
-#if UNITY_EDITOR
+#if !UNITY_6000_5_OR_NEWER && UNITY_EDITOR
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void ResetStaticsOnLoad()
         {

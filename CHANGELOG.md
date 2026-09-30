@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.7.1] - 2026-09-30
+
+### Changed
+- On Unity 6.5 and newer, static state is reset via the `[AutoStaticsCleanup]` attribute instead of a `RuntimeInitializeOnLoadMethod`. This removes compiler warnings on CoreCLR based runtimes and reduces domain reload pressure, since the attribute initializes statics lazily.
+
+### Fixed
+- Avoid `MarshalDirectiveException` on CoreCLR based runtimes and used a truncated image offset on Mono (invalid P/Invoke signature for `ktx_get_image_offset`).
+- Lifecycle management for `BuildPreProcessor.k_WebAssemblyLibraries` fixes compiler warnings on Unity 7 / CoreCLR.
+- (Test) Applied `NoAutoStaticsCleanup` to the immutable `TestTextureProvider.k_TestCases`, since `AutoStaticsCleanupCodeGenerator` fails on `readonly` fields with non-trivial initializers and then skips the whole test assembly.
+
 ## [3.7.0] - 2026-07-10
 
 ### Added

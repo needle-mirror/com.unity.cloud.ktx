@@ -733,8 +733,7 @@ namespace KtxUnity
             uint level,
             uint layer,
             uint faceSlice,
-            [MarshalAs(UnmanagedType.SysUInt)]
-            out uint pOffset
+            out nuint pOffset
             );
 
         [DllImport(ktxLibrary)]

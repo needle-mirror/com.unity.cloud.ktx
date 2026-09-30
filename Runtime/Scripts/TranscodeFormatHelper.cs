@@ -4,6 +4,9 @@
 
 using System;
 using System.Collections.Generic;
+#if UNITY_6000_5_OR_NEWER
+using Unity.Scripting.LifecycleManagement;
+#endif
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
 #if KTX_VERBOSE
@@ -78,10 +81,21 @@ namespace KtxUnity
         }
     }
 
-    static class TranscodeFormatHelper
+    static partial class TranscodeFormatHelper
     {
+#if UNITY_6000_5_OR_NEWER
+        [AutoStaticsCleanup]
+#endif
         static bool s_Initialized;
+
+#if UNITY_6000_5_OR_NEWER
+        [AutoStaticsCleanup]
+#endif
         static Dictionary<TextureFeatures, TranscodeFormatTuple> s_FormatCache;
+
+#if UNITY_6000_5_OR_NEWER
+        [AutoStaticsCleanup]
+#endif
         static List<FormatInfo> s_AllFormats;
 
         static void InitInternal()
@@ -459,7 +473,7 @@ namespace KtxUnity
             );
         }
 
-#if UNITY_EDITOR
+#if !UNITY_6000_5_OR_NEWER && UNITY_EDITOR
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void ResetStaticsOnLoad()
         {

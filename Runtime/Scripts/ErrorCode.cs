@@ -4,6 +4,9 @@
 
 using System;
 using System.Collections.Generic;
+#if UNITY_6000_5_OR_NEWER
+using Unity.Scripting.LifecycleManagement;
+#endif
 
 namespace KtxUnity
 {
@@ -71,12 +74,15 @@ namespace KtxUnity
     /// <summary>
     /// Used to generate a message from an <see cref="ErrorCode"/>.
     /// </summary>
-    public static class ErrorMessage
+    public static partial class ErrorMessage
     {
 #if !DEBUG
         const string k_UnknownErrorMessage = "Unknown Error";
 #endif
-        static readonly Dictionary<ErrorCode, string> k_ErrorMessages = new Dictionary<ErrorCode, string>() {
+#if UNITY_6000_5_OR_NEWER
+        [AutoStaticsCleanup]
+#endif
+        static readonly Dictionary<ErrorCode, string> k_ErrorMessages = new() {
             { ErrorCode.Success, "OK" },
             { ErrorCode.UnsupportedVersion, "Only KTX 2.0 is supported" },
             { ErrorCode.UnsupportedFormat, "Unsupported format" },

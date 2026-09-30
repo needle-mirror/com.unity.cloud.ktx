@@ -5,6 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+#if UNITY_6000_5_OR_NEWER
+using Unity.Scripting.LifecycleManagement;
+#endif
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
@@ -16,7 +19,11 @@ namespace KtxUnity.Editor
     {
         public const string packagePath = "Packages/com.unity.cloud.ktx/Runtime/Plugins/";
 
-        internal static readonly Dictionary<GUID, int> webAssemblyLibraries = new Dictionary<GUID, int>()
+#if UNITY_6000_5_OR_NEWER
+        // AutoStaticsCleanup does not work with C# 9.0, so we're not using it until Unity 7
+        [NoAutoStaticsCleanup]
+#endif
+        internal static readonly Dictionary<GUID, int> k_WebAssemblyLibraries = new Dictionary<GUID, int>()
         {
             // Database of WebAssembly library files within folder `Runtime/Plugins/WebGL`
             [new GUID("064f9fdd6ee9346269b838d6b768b3cc")] = 2023, // 2023/libktx_read.a
@@ -48,7 +55,7 @@ namespace KtxUnity.Editor
                             plugin.SetIncludeInBuildDelegate(IncludeAppleLibraryInBuild);
                             break;
                         case BuildTarget.WebGL:
-                            if (webAssemblyLibraries.Keys.Any(libGuid => libGuid == AssetDatabase.GUIDFromAssetPath(plugin.assetPath)))
+                            if (k_WebAssemblyLibraries.Keys.Any(libGuid => libGuid == AssetDatabase.GUIDFromAssetPath(plugin.assetPath)))
                             {
                                 plugin.SetIncludeInBuildDelegate(IncludeWebLibraryInBuild);
                             }
@@ -117,7 +124,7 @@ namespace KtxUnity.Editor
         {
             var wasm2023 = new UnityVersion("2023.2.0a17");
 
-            if (webAssemblyLibraries.TryGetValue(pluginGuid, out var majorVersion))
+            if (k_WebAssemblyLibraries.TryGetValue(pluginGuid, out var majorVersion))
             {
                 switch (majorVersion)
                 {
