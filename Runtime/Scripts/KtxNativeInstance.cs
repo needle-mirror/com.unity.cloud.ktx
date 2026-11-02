@@ -370,6 +370,8 @@ namespace KtxUnity
                 case VkFormat.BC2UNormBlock: return GraphicsFormat.RGBA_DXT3_UNorm;
                 case VkFormat.BC3SrgbBlock: return GraphicsFormat.RGBA_DXT5_SRGB;
                 case VkFormat.BC3UNormBlock: return GraphicsFormat.RGBA_DXT5_UNorm;
+                case VkFormat.BC6HUFloatBlock: return GraphicsFormat.RGB_BC6H_UFloat;
+                case VkFormat.E5B9G9R9UFloatPack32: return GraphicsFormat.E5B9G9R9_UFloatPack32;
                 case VkFormat.ETC2R8G8B8UNormBlock: return GraphicsFormat.RGB_ETC2_UNorm;
                 case VkFormat.R16SFloat: return GraphicsFormat.R16_SFloat;
                 case VkFormat.R16SInt: return GraphicsFormat.R16_SInt;
@@ -497,7 +499,6 @@ namespace KtxUnity
                 case VkFormat.BC5SNormBlock:
                 case VkFormat.BC5UNormBlock:
                 case VkFormat.BC6HSFloatBlock:
-                case VkFormat.BC6HUFloatBlock:
                 case VkFormat.BC7SrgbBlock:
                 case VkFormat.BC7UNormBlock:
                 case VkFormat.D16UNorm:
@@ -505,7 +506,6 @@ namespace KtxUnity
                 case VkFormat.D24UNormS8UInt:
                 case VkFormat.D32SFloat:
                 case VkFormat.D32SFloatS8UInt:
-                case VkFormat.E5B9G9R9UFloatPack32:
                 case VkFormat.EACR11G11SNormBlock:
                 case VkFormat.EACR11G11UNormBlock:
                 case VkFormat.EACR11SNormBlock:

@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.8.0] - 2026-11-02
+
+### Added
+- Support for [VK_FORMAT_BC6H_UFLOAT_BLOCK](https://registry.khronos.org/vulkan/specs/latest/man/html/VkFormat.html) (loads as [RGB_BC6H_UFloat](xref:UnityEngine.Experimental.Rendering.GraphicsFormat.RGB_BC6H_UFloat)).
+- Support for [VK_FORMAT_E5B9G9R9_UFLOAT_PACK32](https://registry.khronos.org/vulkan/specs/latest/man/html/VkFormat.html) (loads as [E5B9G9R9_UFloatPack32](xref:UnityEngine.Experimental.Rendering.GraphicsFormat.E5B9G9R9_UFloatPack32)).
+- (Documentation) [Visual C++ runtime dependency](./Documentation~/installation.md#visual-c-runtime-on-windows) of the Windows native library and how to bundle the Visual C++ Redistributable with applications built with Unity versions before 6.7.
+
 ## [3.7.1] - 2026-09-30
 
 ### Changed
